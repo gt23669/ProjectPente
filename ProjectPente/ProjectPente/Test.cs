@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectPente
 {
-    class Test
+    public class Test
     {
         /*
          objective:
@@ -28,6 +28,9 @@ namespace ProjectPente
         TOURNAMENT RULES:
             first player's first move must be on the center point. the first player's second move is restricted to playing three or more intersections away from the center of the board. All other rules of standard Pente apply.
          */
-
+      public static void Anything()
+        {
+            
+        }
     }
 }
