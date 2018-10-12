@@ -7,9 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
-        
+        <UniformGrid Margin="10,10,445,10"></UniformGrid>
         <Button x:Name="btnClose" Content="X" HorizontalAlignment="Left" Margin="1220,10,0,0" VerticalAlignment="Top" Width="50" Height="50" FontSize="32" RenderTransformOrigin="-0.543,0.432" Click="Close_Click"/>
-        <Button x:Name="btnGO" Content="GO" HorizontalAlignment="Left" Margin="584,271,0,0" VerticalAlignment="Top" Width="94" Height="63" FontSize="32" Click="GO_Click"/>
-        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Height="63" FontSize="32" Click="Back_Click" Margin="485,271,0,0" RenderTransformOrigin="3.004,5.111"/>
+        <Button x:Name="btnNewGame" Content="New Game" HorizontalAlignment="Left" VerticalAlignment="Top" Width="238" Height="63" FontSize="32" Click="Back_Click" Margin="951,579,0,0" RenderTransformOrigin="3.004,5.111"/>
     </Grid>
 </UserControl>
