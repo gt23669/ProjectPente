@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="ProjectPente.PENTE_User_Controls.GameBoard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectPente.PENTE_User_Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1280">
+    <Grid>
+        
+        <Button x:Name="btnClose" Content="X" HorizontalAlignment="Left" Margin="1220,10,0,0" VerticalAlignment="Top" Width="50" Height="50" FontSize="32" RenderTransformOrigin="-0.543,0.432" Click="Close_Click"/>
+        <Button x:Name="btnGO" Content="GO" HorizontalAlignment="Left" Margin="584,271,0,0" VerticalAlignment="Top" Width="94" Height="63" FontSize="32" Click="GO_Click"/>
+        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Height="63" FontSize="32" Click="Back_Click" Margin="485,271,0,0" RenderTransformOrigin="3.004,5.111"/>
+    </Grid>
+</UserControl>

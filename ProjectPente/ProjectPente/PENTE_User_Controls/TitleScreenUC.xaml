@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="ProjectPente.PENTE_User_Controls.TitleScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectPente.PENTE_User_Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="720" d:DesignWidth="1280">
+    <Grid>
+        <Label Name="lbPente" Content="PENTE" HorizontalAlignment="Left" Margin="513,144,0,0" VerticalAlignment="Top" FontFamily="Stencil" FontSize="72"/>
+        <Button Name="btnStart" Content="Start" HorizontalAlignment="Left" Margin="467,406,0,0" VerticalAlignment="Top" Width="226" Height="74" FontSize="32" Click="Start_Click"/>
+        <Button Name="btnHelp" Content="?" HorizontalAlignment="Left" Margin="715,406,0,0" VerticalAlignment="Top" Width="74" Height="74" FontSize="32" RenderTransformOrigin="-0.543,0.432" Click="Help_Click"/>
+        <Button x:Name="btnClose" Content="X" HorizontalAlignment="Left" Margin="1220,10,0,0" VerticalAlignment="Top" Width="50" Height="50" FontSize="32" RenderTransformOrigin="-0.543,0.432" Click="Close_Click"/>
+    </Grid>
+</UserControl>
