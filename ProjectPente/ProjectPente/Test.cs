@@ -27,10 +27,17 @@ namespace ProjectPente
             opponent has no "last chance"
         TOURNAMENT RULES:
             first player's first move must be on the center point. the first player's second move is restricted to playing three or more intersections away from the center of the board. All other rules of standard Pente apply.
+
+         Expectations:
+            1. Test user interacts with application as we expect the program to flow.
+            2. Help information shows a clear understanding of game mechanics without additional user questions
+            3. Player can get to the game screen within 3-4 clicks
+            4. Name screen is obvious in reguards to player(s) entering their name or names.
+            5. Game screen shows clear fields. i.e. clear layout of grid and buttons.
          */
       public static void Anything()
         {
-            
+
         }
     }
 }
