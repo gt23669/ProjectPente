@@ -58,6 +58,7 @@ namespace ProjectPente
 
         internal void Go()
         {
+            gameBoard.ugPenteBoard.Children.Clear();
             for (int i = 0; i < 361; i++)
             {
                 gameBoard.ugPenteBoard.Children.Add(new Rectangle()
