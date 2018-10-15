@@ -25,7 +25,8 @@ namespace ProjectPente
         NameSelectUC nameSelect = new NameSelectUC();
         GameBoard gameBoard = new GameBoard();
         GameOverUC gameOver = new GameOverUC();
-
+        int row;
+        int col;
 
         public MainWindow()
         {
@@ -59,11 +60,14 @@ namespace ProjectPente
         internal void Go()
         {
             gameBoard.ugPenteBoard.Children.Clear();
-            for (int i = 0; i < 361; i++)
+            row = gameBoard.ugPenteBoard.Rows;
+            col = gameBoard.ugPenteBoard.Columns;
+            for (int i = 0; i < row * col ; i++)
             {
                 Rectangle rectangle = new Rectangle()
                 {
-                    Stroke = Brushes.Black
+                    Stroke = Brushes.Black,        
+                    Fill = Brushes.White
                 };
 
                 rectangle.MouseDown += PlacePiece;
@@ -78,7 +82,7 @@ namespace ProjectPente
         {
             Rectangle position = (Rectangle)sender;
             ImageBrush image = new ImageBrush();
-            image.ImageSource = new BitmapImage(new Uri("//Resources//BlackStone(Resized).png", UriKind.Relative));
+            image.ImageSource = new BitmapImage(new Uri("Resources//BlackStone(Resize).Png", UriKind.Relative));
             position.Fill = image;
         }
     }
