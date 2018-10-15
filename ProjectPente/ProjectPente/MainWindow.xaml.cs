@@ -61,13 +61,22 @@ namespace ProjectPente
             gameBoard.ugPenteBoard.Children.Clear();
             for (int i = 0; i < 361; i++)
             {
-                gameBoard.ugPenteBoard.Children.Add(new Rectangle()
+                Rectangle rectangle = new Rectangle()
                 {
-                    Stroke = Brushes.Black,
-            });
-            }
+                    Stroke = Brushes.Black
+                };
+
+                rectangle.MouseDown += PlacePiece;
+
+                gameBoard.ugPenteBoard.Children.Add(rectangle);
+            };
             nameSelect.Visibility = Visibility.Hidden;
             gameBoard.Visibility = Visibility.Visible;
+        }
+
+        private void PlacePiece(object sender, MouseButtonEventArgs e)
+        {
+            
         }
     }
 }
