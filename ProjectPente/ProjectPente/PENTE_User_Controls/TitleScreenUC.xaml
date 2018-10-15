@@ -8,8 +8,8 @@
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
         <Label Name="lbPente" Content="PENTE" HorizontalAlignment="Left" Margin="432,194,0,0" VerticalAlignment="Top" FontFamily="Stencil" FontSize="130"/>
-        <Button Name="btnStart" Content="Start" HorizontalAlignment="Left" Margin="473,430,0,0" VerticalAlignment="Top" Width="226" Height="74" FontSize="32" Click="Start_Click"/>
-        <Button Name="btnHelp" Content="?" HorizontalAlignment="Left" Margin="721,430,0,0" VerticalAlignment="Top" Width="74" Height="74" FontSize="32" RenderTransformOrigin="-0.543,0.432" Click="Help_Click"/>
-        <Button x:Name="btnClose" Content="X" HorizontalAlignment="Left" Margin="1220,10,0,0" VerticalAlignment="Top" Width="50" Height="50" FontSize="32" RenderTransformOrigin="-0.543,0.432" Click="Close_Click"/>
+        <Button Name="btnStart" Content="Start" HorizontalAlignment="Left" Margin="473,430,0,0" VerticalAlignment="Top" Width="226" Height="74" FontSize="32" Click="Start_Click" Background="#8b8378"/>
+        <Button Name="btnHelp" Content="?" HorizontalAlignment="Left" Margin="721,430,0,0" VerticalAlignment="Top" Width="74" Height="74" FontSize="32" RenderTransformOrigin="-0.543,0.432" Click="Help_Click" Background="#8b8378"/>
+        <Button x:Name="btnClose" Content="X" HorizontalAlignment="Left" Margin="1220,10,0,0" VerticalAlignment="Top" Width="50" Height="50" FontSize="32" RenderTransformOrigin="-0.543,0.432" Click="Close_Click" Background="#8b8378"/>
     </Grid>
 </UserControl>
