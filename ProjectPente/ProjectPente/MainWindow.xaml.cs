@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectPente.PENTE_User_Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,15 @@ namespace ProjectPente
     /// </summary>
     public partial class MainWindow : Window
     {
+        TitleScreen titleScreen = new TitleScreen();
+        NameSelectUC nameSelect = new NameSelectUC();
+        GameBoard gameBoard = new GameBoard();
+        GameOverUC gameOver = new GameOverUC();
+
         public MainWindow()
         {
             InitializeComponent();
+            mainWindow.Children.Add(titleScreen);
         }
     }
 }

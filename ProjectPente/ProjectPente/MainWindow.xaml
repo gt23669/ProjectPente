@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ProjectPente"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280" Background="Bisque" WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize">
-    <Grid>
+    <Grid Name="mainWindow" Height="720" Width="1280">
         
     </Grid>
 </Window>
