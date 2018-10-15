@@ -20,6 +20,7 @@ namespace ProjectPente.PENTE_User_Controls
     /// </summary>
     public partial class NameSelectUC : UserControl
     {
+        public MainWindow window;
         public NameSelectUC()
         {
             InitializeComponent();
@@ -27,17 +28,17 @@ namespace ProjectPente.PENTE_User_Controls
 
         private void GO_Click(object sender, RoutedEventArgs e)
         {
-
+            window.Go();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-
+            window.MainMenu();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            //this.Close();
+            window.Close();
         }
     }
 }

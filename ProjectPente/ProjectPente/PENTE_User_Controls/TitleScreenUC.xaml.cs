@@ -20,21 +20,16 @@ namespace ProjectPente.PENTE_User_Controls
     /// </summary>
     public partial class TitleScreen : UserControl
     {
-        MainWindow window;
+        public MainWindow window;
 
         public TitleScreen()
         {
             InitializeComponent();
         }
-   
-        private MainWindow getWindow()
-        {
-            return Application.Current.MainWindow as MainWindow;
-        }
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-
+            window.StartGame();
         }
 
         private void Help_Click(object sender, RoutedEventArgs e)
@@ -44,7 +39,7 @@ namespace ProjectPente.PENTE_User_Controls
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            //this.Close();
+            window.Close();
         }
     }
 }

@@ -26,10 +26,47 @@ namespace ProjectPente
         GameBoard gameBoard = new GameBoard();
         GameOverUC gameOver = new GameOverUC();
 
+
         public MainWindow()
         {
             InitializeComponent();
             mainWindow.Children.Add(titleScreen);
+            mainWindow.Children.Add(nameSelect);
+            mainWindow.Children.Add(gameBoard);
+            mainWindow.Children.Add(gameOver);
+            nameSelect.Visibility = Visibility.Hidden;
+            gameBoard.Visibility = Visibility.Hidden;
+            gameOver.Visibility = Visibility.Hidden;
+            titleScreen.window = this;
+            nameSelect.window = this;
+            gameBoard.window = this;
+        }
+
+        internal void MainMenu()
+        {
+            titleScreen.Visibility = Visibility.Visible;
+            nameSelect.Visibility = Visibility.Hidden;
+            gameBoard.Visibility = Visibility.Hidden;
+            gameOver.Visibility = Visibility.Hidden;
+        }
+
+        internal void StartGame()
+        {
+            titleScreen.Visibility = Visibility.Hidden;
+            nameSelect.Visibility = Visibility.Visible;
+        }
+
+        internal void Go()
+        {
+            for (int i = 0; i < 361; i++)
+            {
+                gameBoard.ugPenteBoard.Children.Add(new Rectangle()
+                {
+                    Stroke = Brushes.Black,
+            });
+            }
+            nameSelect.Visibility = Visibility.Hidden;
+            gameBoard.Visibility = Visibility.Visible;
         }
     }
 }

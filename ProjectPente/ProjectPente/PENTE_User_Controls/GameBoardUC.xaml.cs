@@ -20,6 +20,7 @@ namespace ProjectPente.PENTE_User_Controls
     /// </summary>
     public partial class GameBoard : UserControl
     {
+        public MainWindow window;
         public GameBoard()
         {
             InitializeComponent();
@@ -27,12 +28,12 @@ namespace ProjectPente.PENTE_User_Controls
 
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
-
+            window.MainMenu();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            //this.Close();
+            window.Close();
         }
     }
 }
