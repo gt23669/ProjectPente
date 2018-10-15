@@ -68,7 +68,7 @@ namespace ProjectPente
 
                 rectangle.MouseDown += PlacePiece;
 
-                gameBoard.ugPenteBoard.Children.Add(rectangle)
+                gameBoard.ugPenteBoard.Children.Add(rectangle);
             };
             nameSelect.Visibility = Visibility.Hidden;
             gameBoard.Visibility = Visibility.Visible;
@@ -76,7 +76,10 @@ namespace ProjectPente
 
         private void PlacePiece(object sender, MouseButtonEventArgs e)
         {
-            
+            Rectangle position = (Rectangle)sender;
+            ImageBrush image = new ImageBrush();
+            image.ImageSource = new BitmapImage(new Uri("//Resources//BlackStone(Resized).png", UriKind.Relative));
+            position.Fill = image;
         }
     }
 }
