@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectPente"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280" Background="Bisque" WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize">
+        Title="MainWindow" Height="720" Width="1280" Background="#cdb79e" WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize">
     <Grid Name="mainWindow" Height="720" Width="1280">
         
     </Grid>
