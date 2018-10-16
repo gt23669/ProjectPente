@@ -12,14 +12,5 @@ namespace ProjectPente.Models
     {
         public Rectangle rectangle { get; set; }
         public bool IsTaken { get; set; }
-
-        public Tile()
-        {
-            Rectangle rectangle = new Rectangle()
-            {
-                Stroke = Brushes.Black,
-                Fill = Brushes.White
-            };
-        }
     }
 }

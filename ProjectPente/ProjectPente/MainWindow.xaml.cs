@@ -76,8 +76,15 @@ namespace ProjectPente
             for (int i = 0; i < row * col ; i++)
             {
                 Tile t = new Tile();
+                Rectangle rectangle = new Rectangle()
+                {
+                    Stroke = Brushes.Black,
+                    Fill = Brushes.White
+                };
 
-                t.rectangle.MouseDown += PlacePiece;
+                rectangle.MouseDown += PlacePiece;
+
+                t.rectangle = rectangle;
 
                 gameBoard.ugPenteBoard.Children.Add(t.rectangle);
             };
