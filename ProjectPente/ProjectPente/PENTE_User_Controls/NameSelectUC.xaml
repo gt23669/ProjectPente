@@ -8,12 +8,15 @@
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
         <Label Name="lbPente" Content="PENTE" HorizontalAlignment="Left" Margin="471,75,0,0" VerticalAlignment="Top" FontFamily="Stencil" FontSize="100"/>
-        <Button Name="btnGO" Content="GO" HorizontalAlignment="Left" Margin="650,519,0,0" VerticalAlignment="Top" Width="194" Height="63" FontSize="32" Click="GO_Click" Background="#8b8378"/>
+        <Button Name="btnGO" Content="GO" HorizontalAlignment="Left" Margin="652,561,0,0" VerticalAlignment="Top" Width="194" Height="63" FontSize="32" Click="GO_Click" Background="#8b8378"/>
         <Button x:Name="btnClose" Content="X" HorizontalAlignment="Left" Margin="1220,10,0,0" VerticalAlignment="Top" Width="50" Height="50" FontSize="32" RenderTransformOrigin="-0.543,0.432" Click="Close_Click" Background="#8b8378"/>
-        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="452,519,0,0" VerticalAlignment="Top" Width="194" Height="63" FontSize="32" Click="Back_Click" Background="#8b8378"/>
-        <Label Name="lbPlayer1" Content="Player 1 Name:" HorizontalAlignment="Left" Margin="342,250,0,0" VerticalAlignment="Top" FontSize="30" Height="62" Width="257"/>
-        <TextBox Name="tbxPlayer1Name" HorizontalAlignment="Left" Height="54" Margin="605,258,0,0" FontSize="26" TextWrapping="Wrap" Text="Player1" VerticalAlignment="Top" Width="311" Background="#8b8378"/>
-        <Label x:Name="lbPlayer2" Content="Player 2 Name:" HorizontalAlignment="Left" Margin="342,369,0,0" VerticalAlignment="Top" FontSize="30" Height="62" Width="257" />
-        <TextBox x:Name="tbxPlayer2Name" HorizontalAlignment="Left" Height="54" Margin="605,377,0,0" FontSize="26" TextWrapping="Wrap" Text="Player2" VerticalAlignment="Top" Width="311" Background="#8b8378"/>
+        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" Margin="454,561,0,0" VerticalAlignment="Top" Width="194" Height="63" FontSize="32" Click="Back_Click" Background="#8b8378"/>
+        <Label Name="lbPlayer1" Content="Player 1 Name:" HorizontalAlignment="Left" Margin="342,243,0,0" VerticalAlignment="Top" FontSize="30" Height="62" Width="257"/>
+        <TextBox Name="tbxPlayer1Name" HorizontalAlignment="Left" Height="54" Margin="605,251,0,0" FontSize="26" TextWrapping="Wrap" Text="Player1" VerticalAlignment="Top" Width="311" Background="#8b8378"/>
+        <Label x:Name="lbPlayer2" Content="Player 2 Name:" HorizontalAlignment="Left" Margin="342,346,0,0" VerticalAlignment="Top" FontSize="30" Height="62" Width="257" />
+        <TextBox x:Name="tbxPlayer2Name" HorizontalAlignment="Left" Height="54" Margin="605,354,0,0" FontSize="26" TextWrapping="Wrap" Text="Player2" VerticalAlignment="Top" Width="311" Background="#8b8378"/>
+        <Slider Name="sGrid" HorizontalAlignment="Left" TickFrequency="2" IsSnapToTickEnabled="True" Value="19" Margin="605,455,0,0" VerticalAlignment="Top" Height="54" Width="241" TickPlacement="BottomRight" Maximum="39" Minimum="9"/>
+        <Label Name="lbGrid" Content="Grid Size:" HorizontalAlignment="Left" Margin="342,447,0,0" VerticalAlignment="Top" FontSize="30" Height="62" Width="257"/>
+        <TextBox Text="{Binding ElementName=sGrid, Path=Value, Mode=OneWay}" FontSize="24" HorizontalAlignment="Left" Height="54" Margin="851,455,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" Background="#8b8378"/>
     </Grid>
 </UserControl>
