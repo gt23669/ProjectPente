@@ -73,13 +73,14 @@ namespace ProjectPente
             gameBoard.ugPenteBoard.Children.Clear();
             row = gameBoard.ugPenteBoard.Rows;
             col = gameBoard.ugPenteBoard.Columns;
+            ImageBrush image = new ImageBrush();
+            image.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackground.png", UriKind.Relative));
             for (int i = 0; i < row * col ; i++)
             {
                 Tile t = new Tile();
                 Rectangle rectangle = new Rectangle()
                 {
-                    Stroke = Brushes.Black,
-                    Fill = Brushes.White
+                    Fill = image
                 };
 
                 rectangle.MouseDown += PlacePiece;
