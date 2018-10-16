@@ -75,35 +75,27 @@ namespace ProjectPente
             col = gameBoard.ugPenteBoard.Columns;
             ImageBrush image = new ImageBrush();
             image.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackground.png", UriKind.Relative));
-            for (int i = 0; i < row * col ; i++)
+            for (int i = 0; i < row; i++)
             {
-                Tile t = new Tile();
-                Rectangle rectangle = new Rectangle()
+                for (int j = 0; j < col; j++)
                 {
-                    Fill = image
-                };
+                    Tile t = new Tile(j, i);
+                    t.Game = game;
+                    Rectangle rectangle = new Rectangle()
+                    {
+                        Fill = image
+                    };
 
-                rectangle.MouseDown += PlacePiece;
+                    rectangle.MouseDown += t.PlacePiece;
+                    
 
-                t.rectangle = rectangle;
+                    t.rectangle = rectangle;
 
-                gameBoard.ugPenteBoard.Children.Add(t.rectangle);
+                    gameBoard.ugPenteBoard.Children.Add(t.rectangle);
+                }
             };
             nameSelect.Visibility = Visibility.Hidden;
             gameBoard.Visibility = Visibility.Visible;
-        }
-
-        private void PlacePiece(object sender, MouseButtonEventArgs e)
-        {
-            string color = game.CurrentPlayer.Name == game.player1.Name ? "WhiteStone" : "BLackStone"; 
-            Rectangle position = (Rectangle)sender;
-            ImageBrush image = new ImageBrush();
-            image.ImageSource = new BitmapImage(new Uri($"Resources//{color}(Resize).Png", UriKind.Relative));
-            position.Fill = image;
-            if (game.ValidMove())
-            {
-                game.TogglePlayer();
-            }
         }
     }
 }
