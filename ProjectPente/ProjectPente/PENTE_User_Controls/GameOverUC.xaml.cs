@@ -28,12 +28,12 @@ namespace ProjectPente.PENTE_User_Controls
 
         private void PlayAgain_Click(object sender, RoutedEventArgs e)
         {
-            window.MainMenu();
+            window.Go();
         }
 
         private void Close_Game_Click(object sender, RoutedEventArgs e)
         {
-            window.Close();
+            window.MainMenu();
         }
     }
 }
