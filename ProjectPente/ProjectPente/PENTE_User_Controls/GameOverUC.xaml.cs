@@ -20,6 +20,7 @@ namespace ProjectPente.PENTE_User_Controls
     /// </summary>
     public partial class GameOverUC : UserControl
     {
+        public MainWindow window { get; set; }
         public GameOverUC()
         {
             InitializeComponent();
@@ -27,12 +28,12 @@ namespace ProjectPente.PENTE_User_Controls
 
         private void PlayAgain_Click(object sender, RoutedEventArgs e)
         {
-
+            window.MainMenu();
         }
 
         private void Close_Game_Click(object sender, RoutedEventArgs e)
         {
-            //this.Close();
+            window.Close();
         }
     }
 }

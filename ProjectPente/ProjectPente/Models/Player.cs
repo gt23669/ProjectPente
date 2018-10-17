@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectPente.Models
 {
-    class Player
+    public class Player
     {
         public int Captures { get; set; }
         public string Name { get; set; }

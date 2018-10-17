@@ -19,7 +19,7 @@ namespace ProjectPente.Models
         EMPTY
     }
 
-    class Tile : INotifyPropertyChanged
+    public class Tile : INotifyPropertyChanged
     {
         public Rectangle rectangle { get; set; }
         public Tuple<int, int> Position { get; set; }

@@ -55,6 +55,7 @@ namespace ProjectPente
             titleScreen.window = this;
             nameSelect.window = this;
             gameBoard.window = this;
+            gameOver.window = this;
         }
         //Returns user to Main Menu screen.
         internal void MainMenu()
@@ -111,6 +112,13 @@ namespace ProjectPente
             };
             nameSelect.Visibility = Visibility.Hidden;
             gameBoard.Visibility = Visibility.Visible;
+        }
+
+        internal void GameOver(Player currentPlayer)
+        {
+            gameBoard.Visibility = Visibility.Hidden;
+            gameOver.Visibility = Visibility.Visible;
+            gameOver.lb_winner.Content = $"{currentPlayer.Name} wins!";
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjectPente
 {
-    class GameController
+    public class GameController
     {
         public MainWindow window { get; set; }
         public Player player1;
@@ -266,7 +266,7 @@ namespace ProjectPente
                 }
                 if (ConsecutivePieces >= 5)
                 {
-                    window.MainMenu();
+                    window.GameOver(CurrentPlayer);
                     return;
                 }
                 else
@@ -281,7 +281,7 @@ namespace ProjectPente
                 }
                 if (ConsecutivePieces >= 5)
                 {
-                    window.MainMenu();
+                    window.GameOver(CurrentPlayer);
                     return;
                 }
                 else
@@ -297,7 +297,7 @@ namespace ProjectPente
                 }
                 if (ConsecutivePieces >= 5)
                 {
-                    window.MainMenu();
+                    window.GameOver(CurrentPlayer);
                     return;
                 }
                 else
@@ -313,7 +313,7 @@ namespace ProjectPente
                 }
                 if (ConsecutivePieces >= 5)
                 {
-                    window.MainMenu();
+                    window.GameOver(CurrentPlayer);
                     return;
                 }
             }
