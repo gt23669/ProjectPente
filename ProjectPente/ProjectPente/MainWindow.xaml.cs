@@ -34,10 +34,14 @@ namespace ProjectPente
         NameSelectUC nameSelect = new NameSelectUC();
         GameBoard gameBoard = new GameBoard();
         GameOverUC gameOver = new GameOverUC();
+
+        public Tuple<int, int> BoardCenter { get; private set; }
+
         GameController game;
         int row;
         int col;
 
+        //Constructor: Initializes windows
         public MainWindow()
         {
             InitializeComponent();
@@ -52,7 +56,7 @@ namespace ProjectPente
             nameSelect.window = this;
             gameBoard.window = this;
         }
-
+        //Returns user to Main Menu screen.
         internal void MainMenu()
         {
             titleScreen.Visibility = Visibility.Visible;
@@ -60,21 +64,26 @@ namespace ProjectPente
             gameBoard.Visibility = Visibility.Hidden;
             gameOver.Visibility = Visibility.Hidden;
         }
-
+        //Takes User to Name Select Screen
         internal void StartGame()
         {
             titleScreen.Visibility = Visibility.Hidden;
             nameSelect.Visibility = Visibility.Visible;
         }
-
+        //Generates game with parameter and takes user to game screen
         internal void Go()
         {
-            game = new GameController(nameSelect.tbxPlayer1Name.Text, nameSelect.tbxPlayer2Name.Text, Mode.PVP);
             gameBoard.ugPenteBoard.Children.Clear();
             row = gameBoard.ugPenteBoard.Rows;
             col = gameBoard.ugPenteBoard.Columns;
-            ImageBrush image = new ImageBrush();
-            image.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackground.png", UriKind.Relative));
+            string player1 = nameSelect.tbxPlayer1Name.Text;
+            string player2 = nameSelect.tbxPlayer2Name.Text;
+            BoardCenter = new Tuple<int, int>((row - 1) / 2, (col - 1) / 2);
+            game = new GameController(player1, player2, Mode.PVP, BoardCenter, this);
+            ImageBrush imageStandard = new ImageBrush();
+            imageStandard.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackground.png", UriKind.Relative));
+            ImageBrush imageCenter = new ImageBrush();
+            imageCenter.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackgroundCenter.png", UriKind.Relative));
             for (int i = 0; i < row; i++)
             {
                 for (int j = 0; j < col; j++)
@@ -83,8 +92,14 @@ namespace ProjectPente
                     t.Game = game;
                     Rectangle rectangle = new Rectangle()
                     {
-                        Fill = image
+                        Fill = imageStandard
                     };
+
+                    if (i == BoardCenter.Item1 && j == BoardCenter.Item2)
+                    {
+                        rectangle.Fill = imageCenter;
+                    }
+
 
                     rectangle.MouseDown += t.PlacePiece;
                     

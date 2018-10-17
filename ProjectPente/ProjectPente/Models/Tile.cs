@@ -11,12 +11,21 @@ using System.Windows.Shapes;
 
 namespace ProjectPente.Models
 {
+
+    public enum Piece
+    {
+        BLACK,
+        WHITE,
+        EMPTY
+    }
+
     class Tile : INotifyPropertyChanged
     {
         public Rectangle rectangle { get; set; }
-        public int XPos { get; set; }
-        public int YPos { get; set; }
+        public Tuple<int, int> Position { get; set; }
+        public int MyProperty { get; set; }
 
+        public Piece PieceColor { get; set; }
 
         private bool Taken;
         public bool IsTaken
@@ -40,25 +49,32 @@ namespace ProjectPente.Models
 
         public Tile(int x, int y)
         {
-            XPos = x;
-            YPos = y;
+            Position = new Tuple<int, int>(x, y);
         }
         public void PlacePiece(object sender, MouseButtonEventArgs e)
         {
-            if (!Taken && Game.ValidMove())
+            if (!Taken && Game.ValidMove(this))
             {
-                string color = Game.CurrentPlayer.Name == Game.player1.Name ? "WhiteStone" : "BLackStone";
-                Rectangle position = (Rectangle)sender;
+                string color = Game.CurrentPlayer.Name == Game.player1.Name ? "BlackStone" : "WhiteStone";
+                PieceColor = color == "BlackStone" ? Piece.BLACK : Piece.WHITE;
                 ImageBrush image = new ImageBrush();
                 image.ImageSource = new BitmapImage(new Uri($"Resources//{color}(Resize).Png", UriKind.Relative));
-                position.Fill = image;
+                rectangle.Fill = image;
+                Game.setCurrentPiece(this);
+                Game.runChecks();
                 Game.TogglePlayer();
                 Taken = true;
                 
             }
         }
 
-
-
+        internal void ResetPiece()
+        {
+            IsTaken = false;
+            PieceColor = Piece.EMPTY;
+            ImageBrush image = new ImageBrush();
+            image.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackground.png", UriKind.Relative));
+            rectangle.Fill = image;
+        }
     }
 }
