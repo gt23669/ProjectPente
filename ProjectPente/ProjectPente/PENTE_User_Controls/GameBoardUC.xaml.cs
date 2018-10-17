@@ -26,14 +26,19 @@ namespace ProjectPente.PENTE_User_Controls
             InitializeComponent();
         }
 
-        private void NewGame_Click(object sender, RoutedEventArgs e)
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            window.Close();
+        }
+
+        private void MainMenu_Click(object sender, RoutedEventArgs e)
         {
             window.MainMenu();
         }
 
-        private void Close_Click(object sender, RoutedEventArgs e)
+        private void PlayAgain_Click(object sender, RoutedEventArgs e)
         {
-            window.Close();
+            //NULL!
         }
     }
 }
