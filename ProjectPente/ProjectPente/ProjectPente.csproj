@@ -136,5 +136,13 @@
   <ItemGroup>
     <Folder Include="Resources\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bin\Debug\Resources\BlackStone%28Resize%29.png" />
+    <Resource Include="bin\Debug\Resources\BlackStone.png" />
+    <Resource Include="bin\Debug\Resources\PenteBoardBackground.png" />
+    <Resource Include="bin\Debug\Resources\PenteBoardBackgroundCenter.png" />
+    <Resource Include="bin\Debug\Resources\WhiteStone%28Resize%29.png" />
+    <Resource Include="bin\Debug\Resources\WhiteStone.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
