@@ -74,6 +74,7 @@ namespace ProjectPente
         //Generates game with parameter and takes user to game screen
         internal void Go()
         {
+            gameOver.Visibility = Visibility.Hidden;
             gameBoard.ugPenteBoard.Children.Clear();
             int size = (int) nameSelect.sGrid.Value;
             gameBoard.ugPenteBoard.Rows = size;

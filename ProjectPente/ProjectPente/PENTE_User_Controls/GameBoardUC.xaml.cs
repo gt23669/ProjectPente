@@ -28,7 +28,7 @@ namespace ProjectPente.PENTE_User_Controls
 
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
-            window.MainMenu();
+            window.Go();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
