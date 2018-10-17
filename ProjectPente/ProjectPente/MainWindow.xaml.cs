@@ -75,8 +75,11 @@ namespace ProjectPente
         internal void Go()
         {
             gameBoard.ugPenteBoard.Children.Clear();
-            row = gameBoard.ugPenteBoard.Rows;
-            col = gameBoard.ugPenteBoard.Columns;
+            int size = (int) nameSelect.sGrid.Value;
+            gameBoard.ugPenteBoard.Rows = size;
+            gameBoard.ugPenteBoard.Columns = size;
+            row = size;
+            col = size;
             string player1 = nameSelect.tbxPlayer1Name.Text;
             string player2 = nameSelect.tbxPlayer2Name.Text;
             BoardCenter = new Tuple<int, int>((row - 1) / 2, (col - 1) / 2);
