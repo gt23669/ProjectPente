@@ -8,7 +8,7 @@
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
         <Label Content="PENTE" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="487,65,524,0" FontFamily="Stencil" FontSize="80" Height="102" Width="269"/>
-        <Label Name="lb_loser" Content="" HorizontalAlignment="Left" Margin="399,374,0,0" VerticalAlignment="Top" FontFamily="Adumu" FontSize="45" Height="67" Width="438"/>
+        <Label Name="lb_loser" Content="" HorizontalAlignment="Left" Margin="470,376,0,0" VerticalAlignment="Top" FontFamily="Adumu" FontSize="45" Height="67" Width="438"/>
         <Label Content="GAME OVER" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="363,200,0,0" FontFamily="Stencil" FontSize="90" Height="128" Width="545"/>
         <Label Content="Would you like to play again?" HorizontalAlignment="Left" Margin="345,520,0,0" VerticalAlignment="Top" FontFamily="Stencil" FontSize="35" Width="546"/>
         <Button Content="Yes" HorizontalAlignment="Left" Margin="494,576,0,0" VerticalAlignment="Top" Width="113" Height="50" RenderTransformOrigin="-0.056,-1.5" FontSize="24" Foreground="Black" Click="PlayAgain_Click" Background="#8b8378"/>
