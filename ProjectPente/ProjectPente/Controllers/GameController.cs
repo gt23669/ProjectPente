@@ -18,6 +18,7 @@ namespace ProjectPente
 
         private List<Tile> BlackPieces;
         private List<Tile> WhitePieces;
+        private List<Tile> CurrentPieces;
 
         Mode Mode;
         private int turnCount;
@@ -47,7 +48,8 @@ namespace ProjectPente
             if (turnCount == 1 && tile.Position.Equals(CenterSpace))
             {
                 return true;
-            } else if (turnCount == 3 && outsideCenter(tile.Position, CenterSpace))
+            }
+            else if (turnCount == 3 && outsideCenter(tile.Position, CenterSpace))
             {
                 return true;
             }
@@ -56,7 +58,7 @@ namespace ProjectPente
                 return true;
             }
 
-            return false; 
+            return false;
         }
         //Helper method for ValidMove.
         private bool outsideCenter(Tuple<int, int> position, Tuple<int, int> centerSpace)
@@ -80,10 +82,12 @@ namespace ProjectPente
             if (tile.PieceColor == Piece.BLACK)
             {
                 BlackPieces.Add(tile);
+                CurrentPieces = BlackPieces;
             }
             else
             {
                 WhitePieces.Add(tile);
+                CurrentPieces = WhitePieces;
             }
 
         }
@@ -130,7 +134,8 @@ namespace ProjectPente
                     {
                         capture = true;
                     }
-                } else if (currentPiece.Position.Item1 - tile.Position.Item1 == -3 && currentPiece.Position.Item2 - tile.Position.Item2 == 0)
+                }
+                else if (currentPiece.Position.Item1 - tile.Position.Item1 == -3 && currentPiece.Position.Item2 - tile.Position.Item2 == 0)
                 {
                     position1 = new Tuple<int, int>(currentPiece.Position.Item1 + 1, currentPiece.Position.Item2);
                     position2 = new Tuple<int, int>(currentPiece.Position.Item1 + 2, currentPiece.Position.Item2);
@@ -208,7 +213,7 @@ namespace ProjectPente
                     }
                 }
 
-                   if (capture)
+                if (capture)
                 {
                     Captured.Remove(tile1);
                     Captured.Remove(tile2);
@@ -250,6 +255,69 @@ namespace ProjectPente
             {
                 window.MainMenu();
             }
+            foreach (Tile tile in CurrentPieces)
+            {
+                Tuple<int, int> position = new Tuple<int, int>(tile.Position.Item1 - 1, tile.Position.Item2 - 1);
+                int ConsecutivePieces = 1;
+                while (GetPieceAtPosition(position, CurrentPieces) != null)
+                {
+                    position = new Tuple<int, int>(position.Item1 - 1, position.Item2 - 1);
+                    ConsecutivePieces++;
+                }
+                if (ConsecutivePieces >= 5)
+                {
+                    window.MainMenu();
+                    return;
+                }
+                else
+                {
+                    position = new Tuple<int, int>(tile.Position.Item1 - 1, tile.Position.Item2 + 1);
+                    ConsecutivePieces = 1;
+                }
+                while (GetPieceAtPosition(position, CurrentPieces) != null)
+                {
+                    position = new Tuple<int, int>(position.Item1 - 1, position.Item2 + 1);
+                    ConsecutivePieces++;
+                }
+                if (ConsecutivePieces >= 5)
+                {
+                    window.MainMenu();
+                    return;
+                }
+                else
+                {
+                    position = new Tuple<int, int>(tile.Position.Item1, tile.Position.Item2 - 1);
+                    ConsecutivePieces = 1;
+                }
+
+                while (GetPieceAtPosition(position, CurrentPieces) != null)
+                {
+                    position = new Tuple<int, int>(position.Item1, position.Item2 - 1);
+                    ConsecutivePieces++;
+                }
+                if (ConsecutivePieces >= 5)
+                {
+                    window.MainMenu();
+                    return;
+                }
+                else
+                {
+                    position = new Tuple<int, int>(tile.Position.Item1 - 1, tile.Position.Item2);
+                    ConsecutivePieces = 1;
+                }
+
+                while (GetPieceAtPosition(position, CurrentPieces) != null)
+                {
+                    position = new Tuple<int, int>(position.Item1 - 1, position.Item2);
+                    ConsecutivePieces++;
+                }
+                if (ConsecutivePieces >= 5)
+                {
+                    window.MainMenu();
+                    return;
+                }
+            }
+
         }
     }
 }
