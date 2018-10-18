@@ -84,14 +84,14 @@ namespace ProjectPente
                 {
                     foreach (Tile tile in AvailableTiles)
                     {
-                        tile.rectangle.MouseDown -= tile.PlacePiece;
+                        tile.rectangle.MouseDown -= tile.PlacePieceEvent;
                     }
                 }
                 else if (!CurrentPlayer.IsComputer)
                 {
                     foreach (Tile tile in AvailableTiles)
                     {
-                        tile.rectangle.MouseDown += tile.PlacePiece;
+                        tile.rectangle.MouseDown += tile.PlacePieceEvent;
                     }
                 }
                 window.UpdateView(CurrentPlayer.Name, Alerts);
@@ -264,9 +264,27 @@ namespace ProjectPente
 
         internal void ComputerTurn()
         {
+            Random r1 = new Random();
+            Random r2 = new Random();
+            foreach (Tile item in WhitePieces)
+            {
+                for (int c = 0; c < 9; c++)
+                {
+                    int i = item.Position.Item1 + r1.Next(-1,2);
+                    int j = item.Position.Item1 + r2.Next(-1,2);
+                    foreach (Tile tile in AvailableTiles)
+                    {
+                        if (tile.Position.Item1 == i && tile.Position.Item2 == j && tile.PlacePiece())
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+
             Random random = new Random();
             int index = random.Next(0, AvailableTiles.Count);
-            AvailableTiles[index].PlacePiece(null, null);
+            AvailableTiles[index].PlacePiece();
         }
 
         //Returns a piece at a given position.
@@ -286,7 +304,7 @@ namespace ProjectPente
         {
             if (CurrentPlayer.Captures >= 5)
             {
-                window.MainMenu();
+                window.GameOver(CurrentPlayer);
             }
             foreach (Tile tile in CurrentPieces)
             {

@@ -94,7 +94,8 @@ namespace ProjectPente
             string player1 = nameSelect.tbxPlayer1Name.Text;
             string player2 = nameSelect.tbxPlayer2Name.Text;
             BoardCenter = new Tuple<int, int>((row - 1) / 2, (col - 1) / 2);
-            game = new GameController(player1, player2, Mode.PVC, BoardCenter, this);
+            Mode mode = nameSelect.chkBoxComputer.IsChecked == true ? Mode.PVC : Mode.PVP;
+            game = new GameController(player1, player2, mode, BoardCenter, this);
             ImageBrush imageStandard = new ImageBrush();
             imageStandard.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackground.png", UriKind.Relative));
             ImageBrush imageCenter = new ImageBrush();
@@ -116,7 +117,7 @@ namespace ProjectPente
                     }
 
 
-                    rectangle.MouseDown += t.PlacePiece;
+                    rectangle.MouseDown += t.PlacePieceEvent;
                     t.rectangle = rectangle;
 
                     gameBoard.ugPenteBoard.Children.Add(t.rectangle);
@@ -146,7 +147,8 @@ namespace ProjectPente
         {
             this.Dispatcher.Invoke(() => {
                 Random random = new Random();
-                int offset = random.Next(0, 5);
+                //int offset = random.Next(0, 5);
+                int offset = 0;
                 turnTime--;
                 gameBoard.lbTimer.Content = $"{turnTime}s";
                 if (game.CurrentPlayer.IsComputer && turnTime < 20 - offset)

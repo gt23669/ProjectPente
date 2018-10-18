@@ -51,7 +51,12 @@ namespace ProjectPente.Models
         {
             Position = new Tuple<int, int>(x, y);
         }
-        public void PlacePiece(object sender, MouseButtonEventArgs e)
+        public void PlacePieceEvent(object sender, MouseButtonEventArgs e)
+        {
+            PlacePiece();
+        }
+
+        public bool PlacePiece()
         {
             if (!Taken && Game.ValidMove(this))
             {
@@ -64,8 +69,11 @@ namespace ProjectPente.Models
                 Game.runChecks();
                 Game.TogglePlayer();
                 Taken = true;
+                return true;
             }
+            return false;
         }
+        
 
 
         internal void ResetPiece()
