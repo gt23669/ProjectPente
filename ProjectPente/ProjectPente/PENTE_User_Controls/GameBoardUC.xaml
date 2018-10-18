@@ -9,9 +9,10 @@
     <Grid>
         <UniformGrid Name="ugPenteBoard" Margin="10,10,570,10" Columns="19" Rows="19" Background="#8b8378"></UniformGrid>
         <Button x:Name="btnClose" Content="X" HorizontalAlignment="Left" Margin="1220,10,0,0" VerticalAlignment="Top" Width="50" Height="50" FontSize="32" RenderTransformOrigin="-0.543,0.432" Click="Close_Click" Background="#8b8378"/>
-        <Button x:Name="btnNewGame" Content="New Game" HorizontalAlignment="Left" VerticalAlignment="Top" Width="271" Height="71" FontSize="32" Click="NewGame_Click" Margin="875,508,0,0" RenderTransformOrigin="3.004,5.111" Background="#8b8378"/>
+        <Button x:Name="btnMainMenu" Content="Main Menu" HorizontalAlignment="Left" VerticalAlignment="Top" Width="271" Height="61" FontSize="32" Click="MainMenu_Click" Margin="875,518,0,0" RenderTransformOrigin="3.004,5.111" Background="#8b8378"/>
         <Label Name="lbPlayerLabel" Content="Player 1's turn." FontSize="44" HorizontalAlignment="Left" Margin="863,229,0,0" VerticalAlignment="Top" Height="168" Width="338"/>
         <Label Name="lbAlert" Content="" FontSize="20" HorizontalAlignment="Left" Margin="875,402,0,0" VerticalAlignment="Top" Height="73" Width="182" RenderTransformOrigin="0.528,-0.016"/>
         <Label Name="lbTimer" Content="20s left!" FontSize="20" HorizontalAlignment="Left" Margin="1062,402,0,0" VerticalAlignment="Top" Height="73" Width="84"/>
+        <Button x:Name="btnPlayAgain" Content="Play Again" HorizontalAlignment="Left" VerticalAlignment="Top" Width="271" Height="61" FontSize="32" Click="PlayAgain_Click" Margin="875,584,0,0" RenderTransformOrigin="3.004,5.111" Background="#8b8378"/>
     </Grid>
 </UserControl>
