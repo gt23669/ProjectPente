@@ -34,7 +34,12 @@ namespace ProjectPente.PENTE_User_Controls
 
         private void Help_Click(object sender, RoutedEventArgs e)
         {
+            Window helpWindow = new Window()
+            {
+                Background = new ImageBrush(new BitmapImage(new Uri($"Resources//PenteHelpPage.png", UriKind.Relative)))
+            };
 
+            helpWindow.Show();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

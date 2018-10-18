@@ -21,6 +21,7 @@ namespace ProjectPente.PENTE_User_Controls
     public partial class GameBoard : UserControl
     {
         public MainWindow window;
+
         public GameBoard()
         {
             InitializeComponent();

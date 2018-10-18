@@ -118,9 +118,7 @@ namespace ProjectPente
 
                     rectangle.MouseDown += t.PlacePieceEvent;
                     t.rectangle = rectangle;
-
                     gameBoard.ugPenteBoard.Children.Add(t.rectangle);
-
                     game.AvailableTiles.Add(t);
                 }
             };
@@ -156,10 +154,12 @@ namespace ProjectPente
                 int offset = 0;
                 turnTime--;
                 gameBoard.lbTimer.Content = $"{turnTime}s";
+
                 if (game.CurrentPlayer.IsComputer && turnTime < 20 - offset)
                 {
                     game.ComputerTurn();
                 }
+
                 if (turnTime <= 0)
                 {
                     game.TogglePlayer();
