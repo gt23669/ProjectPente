@@ -137,5 +137,8 @@
     <Resource Include="bin\Debug\Resources\WhiteStone%28Resize%29.png" />
     <Resource Include="bin\Debug\Resources\WhiteStone.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bin\Debug\Resources\PenteHelpPage.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
