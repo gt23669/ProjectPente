@@ -16,13 +16,12 @@ namespace ProjectPente
         public Tuple<int, int> CenterSpace { get; private set; }
         public Tile CurrentPiece { get; private set; }
         public List<Tile> AvailableTiles = new List<Tile>();
-
         private List<Tile> BlackPieces;
         private List<Tile> WhitePieces;
         private List<Tile> CurrentPieces;
-
         Mode Mode;
         private int turnCount;
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -44,6 +43,7 @@ namespace ProjectPente
             WhitePieces = new List<Tile>();
             this.window = window;
         }
+
         //Checks if a move is valid per tournament rules
         internal bool ValidMove(Tile tile)
         {
@@ -62,6 +62,7 @@ namespace ProjectPente
 
             return false;
         }
+
         //Helper method for ValidMove.
         private bool outsideCenter(Tuple<int, int> position, Tuple<int, int> centerSpace)
         {
@@ -71,6 +72,7 @@ namespace ProjectPente
             }
             return false;
         }
+
         //Toggles the who the current player is.
         internal void TogglePlayer()
         {
@@ -95,8 +97,9 @@ namespace ProjectPente
                     }
                 }
                 window.UpdateView(CurrentPlayer.Name, Alerts);
-            }  
+            }
         }
+
         //Sets reference to the piece just placed for win and capture checks and adds it to a list of same colored pieces placed.
         internal void setCurrentPiece(Tile tile)
         {
@@ -114,13 +117,14 @@ namespace ProjectPente
             AvailableTiles.Remove(tile);
 
         }
+
         //Runs capture and win checks
         internal void runChecks()
         {
             tryCapture(CurrentPiece);
             checkWinConditions();
-
         }
+
         //Performs a capture based on last piece placed if possible.
         private void tryCapture(Tile currentPiece)
         {
@@ -259,8 +263,8 @@ namespace ProjectPente
                     BlackPieces = Captured;
                     break;
             }
-
         }
+
         //Handles the logic for the computer's turn if there is a computer opponent.
         internal void ComputerTurn()
         {
@@ -270,8 +274,8 @@ namespace ProjectPente
             {
                 for (int c = 0; c < 9; c++)
                 {
-                    int i = item.Position.Item1 + r1.Next(-1,2);
-                    int j = item.Position.Item1 + r2.Next(-1,2);
+                    int i = item.Position.Item1 + r1.Next(-1, 2);
+                    int j = item.Position.Item1 + r2.Next(-1, 2);
                     foreach (Tile tile in AvailableTiles)
                     {
                         if (tile.Position.Item1 == i && tile.Position.Item2 == j && tile.PlacePiece())
@@ -299,6 +303,7 @@ namespace ProjectPente
             }
             return null;
         }
+
         //Checks win conditions
         private void checkWinConditions()
         {
@@ -327,7 +332,6 @@ namespace ProjectPente
                             return;
                         }
                     }
-
                 }
                 else
                 {
@@ -351,7 +355,6 @@ namespace ProjectPente
                             return;
                         }
                     }
-
                 }
                 else
                 {
@@ -376,7 +379,6 @@ namespace ProjectPente
                             return;
                         }
                     }
-
                 }
                 else
                 {
@@ -401,10 +403,8 @@ namespace ProjectPente
                             return;
                         }
                     }
-
                 }
             }
-
         }
     }
 }

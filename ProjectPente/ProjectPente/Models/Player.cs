@@ -9,6 +9,7 @@ namespace ProjectPente.Models
     public class Player
     {
         public int Captures { get; set; }
+
         public string Name { get; set; }
 
         public string Alerts { get; set; }
@@ -22,5 +23,4 @@ namespace ProjectPente.Models
             IsComputer = type;
         }
     }
-
 }
