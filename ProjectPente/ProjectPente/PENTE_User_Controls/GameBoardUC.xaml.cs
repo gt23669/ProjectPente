@@ -33,12 +33,12 @@ namespace ProjectPente.PENTE_User_Controls
 
         private void MainMenu_Click(object sender, RoutedEventArgs e)
         {
-            window.Go();
+            window.MainMenu();
         }
 
         private void PlayAgain_Click(object sender, RoutedEventArgs e)
         {
-            //NULL!
+            window.Go();
         }
     }
 }

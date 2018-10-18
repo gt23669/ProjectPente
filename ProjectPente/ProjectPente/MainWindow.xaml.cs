@@ -79,6 +79,11 @@ namespace ProjectPente
         //Generates game with parameter and takes user to game screen
         internal void Go()
         {
+            if (timer != null)
+            {
+                timer.Stop();
+            }
+            UpdateView(nameSelect.tbxPlayer1Name.Text, null);
             gameOver.Visibility = Visibility.Hidden;
             gameBoard.ugPenteBoard.Children.Clear();
             int size = (int) nameSelect.sGrid.Value;
@@ -122,6 +127,7 @@ namespace ProjectPente
             nameSelect.Visibility = Visibility.Hidden;
             gameBoard.Visibility = Visibility.Visible;
             turnTime = 20;
+            gameBoard.lbTimer.Content = $"{turnTime}s";
             timer = new Timer
             {
                 Interval = 1000
@@ -132,7 +138,7 @@ namespace ProjectPente
 
         internal void UpdateView(string name, string alerts)
         {
-            gameBoard.lbPlayerLabel.Content = name;
+            gameBoard.lbPlayerLabel.Content = $"{name}'s Turn";
             gameBoard.lbAlert.Content = alerts;
         }
 
