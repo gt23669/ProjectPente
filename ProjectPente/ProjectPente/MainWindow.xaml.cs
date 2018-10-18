@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -34,12 +35,15 @@ namespace ProjectPente
         NameSelectUC nameSelect = new NameSelectUC();
         GameBoard gameBoard = new GameBoard();
         GameOverUC gameOver = new GameOverUC();
+        Timer timer;
+        public int turnTime;
 
         public Tuple<int, int> BoardCenter { get; private set; }
 
         GameController game;
         int row;
         int col;
+
 
         //Constructor: Initializes windows
         public MainWindow()
@@ -64,6 +68,7 @@ namespace ProjectPente
             nameSelect.Visibility = Visibility.Hidden;
             gameBoard.Visibility = Visibility.Hidden;
             gameOver.Visibility = Visibility.Hidden;
+            timer.Stop();
         }
         //Takes User to Name Select Screen
         internal void StartGame()
@@ -84,7 +89,7 @@ namespace ProjectPente
             string player1 = nameSelect.tbxPlayer1Name.Text;
             string player2 = nameSelect.tbxPlayer2Name.Text;
             BoardCenter = new Tuple<int, int>((row - 1) / 2, (col - 1) / 2);
-            game = new GameController(player1, player2, Mode.PVP, BoardCenter, this);
+            game = new GameController(player1, player2, Mode.PVC, BoardCenter, this);
             ImageBrush imageStandard = new ImageBrush();
             imageStandard.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackground.png", UriKind.Relative));
             ImageBrush imageCenter = new ImageBrush();
@@ -107,22 +112,56 @@ namespace ProjectPente
 
 
                     rectangle.MouseDown += t.PlacePiece;
-                    
-
                     t.rectangle = rectangle;
 
                     gameBoard.ugPenteBoard.Children.Add(t.rectangle);
+
+                    game.AvailableTiles.Add(t);
                 }
             };
             nameSelect.Visibility = Visibility.Hidden;
             gameBoard.Visibility = Visibility.Visible;
+            turnTime = 20;
+            timer = new Timer
+            {
+                Interval = 1000
+            };
+            timer.Elapsed += CountDown;
+            timer.Start();
         }
+
+        internal void UpdateView(string name, string alerts)
+        {
+            gameBoard.lbPlayerLabel.Content = name;
+            gameBoard.lbAlert.Content = alerts;
+        }
+
+        private void CountDown(object sender, ElapsedEventArgs e)
+        {
+            this.Dispatcher.Invoke(() => {
+                Random random = new Random();
+                int offset = random.Next(0, 5);
+                turnTime--;
+                gameBoard.lbTimer.Content = $"{turnTime}s";
+                if (game.CurrentPlayer.IsComputer && turnTime < 20 - offset)
+                {
+                    game.ComputerTurn();
+                }
+                if (turnTime <= 0)
+                {
+                    game.TogglePlayer();
+                }
+            });
+            
+        }
+
 
         internal void GameOver(Player currentPlayer)
         {
             gameBoard.Visibility = Visibility.Hidden;
             gameOver.Visibility = Visibility.Visible;
             gameOver.lb_winner.Content = $"{currentPlayer.Name} wins!";
+            timer.Stop();
         }
     }
 }

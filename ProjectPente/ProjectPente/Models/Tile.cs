@@ -64,9 +64,9 @@ namespace ProjectPente.Models
                 Game.runChecks();
                 Game.TogglePlayer();
                 Taken = true;
-                
             }
         }
+
 
         internal void ResetPiece()
         {

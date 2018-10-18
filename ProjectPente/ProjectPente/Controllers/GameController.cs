@@ -15,6 +15,7 @@ namespace ProjectPente
         public Player CurrentPlayer { get; set; }
         public Tuple<int, int> CenterSpace { get; private set; }
         public Tile CurrentPiece { get; private set; }
+        public List<Tile> AvailableTiles = new List<Tile>();
 
         private List<Tile> BlackPieces;
         private List<Tile> WhitePieces;
@@ -32,8 +33,9 @@ namespace ProjectPente
         /// <param name="window">Reference to Main Window</param>
         public GameController(string name1, string name2, Mode mode, Tuple<int, int> center, MainWindow window)
         {
-            player1 = new Player(name1);
-            player2 = new Player(name2);
+            player1 = new Player(name1, false);
+            bool IsComputerOpponent = mode == Mode.PVC ? true : false;
+            player2 = new Player(name2, IsComputerOpponent);
             CurrentPlayer = player1;
             turnCount = 1;
             Mode = mode;
@@ -72,8 +74,28 @@ namespace ProjectPente
         //Toggles the who the current player is.
         internal void TogglePlayer()
         {
+            string Alerts = CurrentPlayer.Alerts;
             CurrentPlayer = CurrentPlayer == player1 ? player2 : player1;
             turnCount++;
+            window.turnTime = 21;
+            if (Mode == Mode.PVC)
+            {
+                if (CurrentPlayer.IsComputer)
+                {
+                    foreach (Tile tile in AvailableTiles)
+                    {
+                        tile.rectangle.MouseDown -= tile.PlacePiece;
+                    }
+                }
+                else if (!CurrentPlayer.IsComputer)
+                {
+                    foreach (Tile tile in AvailableTiles)
+                    {
+                        tile.rectangle.MouseDown += tile.PlacePiece;
+                    }
+                }
+                window.UpdateView(CurrentPlayer.Name, Alerts);
+            }  
         }
         //Sets reference to the piece just placed for win and capture checks and adds it to a list of same colored pieces placed.
         internal void setCurrentPiece(Tile tile)
@@ -89,6 +111,7 @@ namespace ProjectPente
                 WhitePieces.Add(tile);
                 CurrentPieces = WhitePieces;
             }
+            AvailableTiles.Remove(tile);
 
         }
         //Runs capture and win checks
@@ -220,6 +243,8 @@ namespace ProjectPente
                     tile1.ResetPiece();
                     tile2.ResetPiece();
                     CurrentPlayer.Captures++;
+                    AvailableTiles.Add(tile1);
+                    AvailableTiles.Add(tile2);
                 }
             }
 
@@ -236,6 +261,14 @@ namespace ProjectPente
             }
 
         }
+
+        internal void ComputerTurn()
+        {
+            Random random = new Random();
+            int index = random.Next(0, AvailableTiles.Count);
+            AvailableTiles[index].PlacePiece(null, null);
+        }
+
         //Returns a piece at a given position.
         private Tile GetPieceAtPosition(Tuple<int, int> position, List<Tile> captured)
         {
@@ -264,10 +297,19 @@ namespace ProjectPente
                     position = new Tuple<int, int>(position.Item1 - 1, position.Item2 - 1);
                     ConsecutivePieces++;
                 }
-                if (ConsecutivePieces >= 5)
+                if (ConsecutivePieces >= 3)
                 {
-                    window.GameOver(CurrentPlayer);
-                    return;
+                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tria!";
+                    if (ConsecutivePieces >= 4)
+                    {
+                        CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
+                        if (ConsecutivePieces >= 5)
+                        {
+                            window.GameOver(CurrentPlayer);
+                            return;
+                        }
+                    }
+
                 }
                 else
                 {
@@ -279,10 +321,19 @@ namespace ProjectPente
                     position = new Tuple<int, int>(position.Item1 - 1, position.Item2 + 1);
                     ConsecutivePieces++;
                 }
-                if (ConsecutivePieces >= 5)
+                if (ConsecutivePieces >= 3)
                 {
-                    window.GameOver(CurrentPlayer);
-                    return;
+                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tria!";
+                    if (ConsecutivePieces >= 4)
+                    {
+                        CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
+                        if (ConsecutivePieces >= 5)
+                        {
+                            window.GameOver(CurrentPlayer);
+                            return;
+                        }
+                    }
+
                 }
                 else
                 {
@@ -295,10 +346,19 @@ namespace ProjectPente
                     position = new Tuple<int, int>(position.Item1, position.Item2 - 1);
                     ConsecutivePieces++;
                 }
-                if (ConsecutivePieces >= 5)
+                if (ConsecutivePieces >= 3)
                 {
-                    window.GameOver(CurrentPlayer);
-                    return;
+                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tria!";
+                    if (ConsecutivePieces >= 4)
+                    {
+                        CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
+                        if (ConsecutivePieces >= 5)
+                        {
+                            window.GameOver(CurrentPlayer);
+                            return;
+                        }
+                    }
+
                 }
                 else
                 {
@@ -311,10 +371,19 @@ namespace ProjectPente
                     position = new Tuple<int, int>(position.Item1 - 1, position.Item2);
                     ConsecutivePieces++;
                 }
-                if (ConsecutivePieces >= 5)
+                if (ConsecutivePieces >= 3)
                 {
-                    window.GameOver(CurrentPlayer);
-                    return;
+                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tria!";
+                    if (ConsecutivePieces >= 4)
+                    {
+                        CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
+                        if (ConsecutivePieces >= 5)
+                        {
+                            window.GameOver(CurrentPlayer);
+                            return;
+                        }
+                    }
+
                 }
             }
 

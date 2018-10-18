@@ -11,10 +11,16 @@ namespace ProjectPente.Models
         public int Captures { get; set; }
         public string Name { get; set; }
 
-        public Player(string name)
+        public string Alerts { get; set; }
+
+        public bool IsComputer { get; set; }
+
+        public Player(string name, bool type)
         {
             Name = name;
             Captures = 0;
+            IsComputer = type;
         }
     }
+
 }
