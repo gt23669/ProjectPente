@@ -18,6 +18,10 @@
         <Slider Name="sGrid" HorizontalAlignment="Left" TickFrequency="2" IsSnapToTickEnabled="True" Value="19" Margin="605,455,0,0" VerticalAlignment="Top" Height="54" Width="241" TickPlacement="BottomRight" Maximum="39" Minimum="9"/>
         <Label Name="lbGrid" Content="Grid Size:" HorizontalAlignment="Left" Margin="342,447,0,0" VerticalAlignment="Top" FontSize="30" Height="62" Width="257"/>
         <TextBox Text="{Binding ElementName=sGrid, Path=Value, Mode=OneWay}" FontSize="24" HorizontalAlignment="Left" Height="54" Margin="851,455,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" Background="#8b8378"/>
-        <CheckBox Name="chkBoxComputer" Content="Vs. Computer" HorizontalAlignment="Left" Margin="957,375,0,0" VerticalAlignment="Top"/>
+        <CheckBox Name="chkBoxComputer" Content="Vs. Computer" HorizontalAlignment="Left" Margin="925,367,0,0" VerticalAlignment="Top">
+            <CheckBox.LayoutTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2" />
+            </CheckBox.LayoutTransform>
+        </CheckBox>
     </Grid>
 </UserControl>
