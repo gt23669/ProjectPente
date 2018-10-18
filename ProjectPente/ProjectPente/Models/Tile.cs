@@ -11,7 +11,6 @@ using System.Windows.Shapes;
 
 namespace ProjectPente.Models
 {
-
     public enum Piece
     {
         BLACK,
@@ -22,12 +21,15 @@ namespace ProjectPente.Models
     public class Tile : INotifyPropertyChanged
     {
         public Rectangle rectangle { get; set; }
+
         public Tuple<int, int> Position { get; set; }
+
         public int MyProperty { get; set; }
 
         public Piece PieceColor { get; set; }
 
         private bool Taken;
+
         public bool IsTaken
         {
             get { return Taken; }
@@ -51,6 +53,7 @@ namespace ProjectPente.Models
         {
             Position = new Tuple<int, int>(x, y);
         }
+
         public void PlacePieceEvent(object sender, MouseButtonEventArgs e)
         {
             PlacePiece();
@@ -73,8 +76,6 @@ namespace ProjectPente.Models
             }
             return false;
         }
-        
-
 
         internal void ResetPiece()
         {
