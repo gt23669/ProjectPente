@@ -68,7 +68,10 @@ namespace ProjectPente
             nameSelect.Visibility = Visibility.Hidden;
             gameBoard.Visibility = Visibility.Hidden;
             gameOver.Visibility = Visibility.Hidden;
-            timer.Stop();
+            if (timer != null)
+            {
+                timer.Stop();
+            }
         }
         //Takes User to Name Select Screen
         internal void StartGame()
