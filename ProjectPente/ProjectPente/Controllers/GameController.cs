@@ -261,7 +261,7 @@ namespace ProjectPente
             }
 
         }
-
+        //Handles the logic for the computer's turn if there is a computer opponent.
         internal void ComputerTurn()
         {
             Random r1 = new Random();

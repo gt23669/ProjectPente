@@ -136,13 +136,13 @@ namespace ProjectPente
             timer.Elapsed += CountDown;
             timer.Start();
         }
-
+        //Displays current player's name and shows any messages.
         internal void UpdateView(string name, string alerts)
         {
             gameBoard.lbPlayerLabel.Content = $"{name}'s Turn";
             gameBoard.lbAlert.Content = alerts;
         }
-
+        //Logic for turn timer. Counts down from 20 and switches players at 0.
         private void CountDown(object sender, ElapsedEventArgs e)
         {
             this.Dispatcher.Invoke(() => {
@@ -162,8 +162,7 @@ namespace ProjectPente
             });
             
         }
-
-
+        //Displays the winner when the game ends.
         internal void GameOver(Player currentPlayer)
         {
             gameBoard.Visibility = Visibility.Hidden;
