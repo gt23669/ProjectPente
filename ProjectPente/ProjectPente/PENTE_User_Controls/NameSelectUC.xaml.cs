@@ -21,6 +21,7 @@ namespace ProjectPente.PENTE_User_Controls
     public partial class NameSelectUC : UserControl
     {
         public MainWindow window;
+
         public NameSelectUC()
         {
             InitializeComponent();

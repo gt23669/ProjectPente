@@ -70,6 +70,7 @@ namespace ProjectPente
             {
                 return true;
             }
+
             return false;
         }
 
@@ -115,7 +116,6 @@ namespace ProjectPente
                 CurrentPieces = WhitePieces;
             }
             AvailableTiles.Remove(tile);
-
         }
 
         //Runs capture and win checks
@@ -301,6 +301,7 @@ namespace ProjectPente
                     return tile;
                 }
             }
+
             return null;
         }
 

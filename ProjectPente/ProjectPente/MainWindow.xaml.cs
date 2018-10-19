@@ -64,7 +64,10 @@ namespace ProjectPente
             nameSelect.Visibility = Visibility.Hidden;
             gameBoard.Visibility = Visibility.Hidden;
             gameOver.Visibility = Visibility.Hidden;
-            timer.Stop();
+            if (timer != null)
+            {
+                timer.Stop();
+            }
         }
 
         //Takes User to Name Select Screen
@@ -118,9 +121,7 @@ namespace ProjectPente
 
                     rectangle.MouseDown += t.PlacePieceEvent;
                     t.rectangle = rectangle;
-
                     gameBoard.ugPenteBoard.Children.Add(t.rectangle);
-
                     game.AvailableTiles.Add(t);
                 }
             };
@@ -156,10 +157,12 @@ namespace ProjectPente
                 int offset = 0;
                 turnTime--;
                 gameBoard.lbTimer.Content = $"{turnTime}s";
+
                 if (game.CurrentPlayer.IsComputer && turnTime < 20 - offset)
                 {
                     game.ComputerTurn();
                 }
+
                 if (turnTime <= 0)
                 {
                     game.TogglePlayer();

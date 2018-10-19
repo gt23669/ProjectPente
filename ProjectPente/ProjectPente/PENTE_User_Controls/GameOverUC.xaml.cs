@@ -21,6 +21,7 @@ namespace ProjectPente.PENTE_User_Controls
     public partial class GameOverUC : UserControl
     {
         public MainWindow window { get; set; }
+
         public GameOverUC()
         {
             InitializeComponent();
