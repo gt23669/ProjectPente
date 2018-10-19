@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace ProjectPente
 {
@@ -12,6 +16,8 @@ namespace ProjectPente
         public MainWindow window { get; set; }
         public Player player1;
         public Player player2;
+        private readonly string BLACKSTONE = "BlackStone";
+        private readonly string WHITESTONE = "WhiteStone";
         public Player CurrentPlayer { get; set; }
         public Tuple<int, int> CenterSpace { get; private set; }
         public Tile CurrentPiece { get; private set; }
@@ -19,6 +25,8 @@ namespace ProjectPente
         private List<Tile> BlackPieces;
         private List<Tile> WhitePieces;
         private List<Tile> CurrentPieces;
+        Dictionary<Rectangle, Tile> TileLookup = new Dictionary<Rectangle, Tile>();
+        List<Tile> AllTiles = new List<Tile>();
         Mode Mode;
         private int turnCount;
 
@@ -30,52 +38,75 @@ namespace ProjectPente
         /// <param name="mode">Game Mode Selected</param>
         /// <param name="center">Position of Center Tile</param>
         /// <param name="window">Reference to Main Window</param>
-        public GameController(string name1, string name2, Mode mode, Tuple<int, int> center, MainWindow window)
+        public GameController(string name1, string name2, Mode mode, MainWindow window)
         {
-            player1 = new Player(name1, false);
+            player1 = new Player(name1, false, BLACKSTONE);
             bool IsComputerOpponent = mode == Mode.PVC ? true : false;
-            player2 = new Player(name2, IsComputerOpponent);
+            player2 = new Player(name2, IsComputerOpponent, WHITESTONE);
             CurrentPlayer = player1;
             turnCount = 1;
             Mode = mode;
-            CenterSpace = center;
             BlackPieces = new List<Tile>();
             WhitePieces = new List<Tile>();
             this.window = window;
         }
 
-        //Checks if a move is valid per tournament rules
-        internal bool ValidMove(Tile tile)
+        public void GenerateTiles(int size)
         {
-            if (turnCount == 1 && tile.Position.Equals(CenterSpace))
-            {
-                return true;
-            }
-            else if (turnCount == 3 && outsideCenter(tile.Position, CenterSpace))
-            {
-                return true;
-            }
-            else if (turnCount != 1 && turnCount != 3)
-            {
-                return true;
-            }
+            ImageBrush imageStandard = new ImageBrush();
+            imageStandard.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackground.png", UriKind.Relative));
+            ImageBrush imageCenter = new ImageBrush();
+            imageCenter.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackgroundCenter.png", UriKind.Relative));
+            CenterSpace = new Tuple<int, int>((size - 1) / 2, (size - 1) / 2);
 
-            return false;
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    Tile t = new Tile();
+                    t.Rectangle = new Rectangle();
+                    t.Position = new Tuple<int, int>(i, j);
+                    t.Rectangle.Fill = imageStandard;
+                    t.Rectangle.MouseDown += SelectTileEvent;
+                    TileLookup.Add(t.Rectangle, t);
+                    AllTiles.Add(t);
+                    AvailableTiles.Add(t);
+                    if (i == CenterSpace.Item1 && j == CenterSpace.Item2)
+                    {
+                        t.Rectangle.Fill = imageCenter;
+                    }
+                }
+            }
         }
 
-        //Helper method for ValidMove.
-        private bool outsideCenter(Tuple<int, int> position, Tuple<int, int> centerSpace)
+        public List<Tile> GetTiles()
         {
-            if (Math.Abs(position.Item1 - centerSpace.Item1) > 2 || Math.Abs(position.Item2 - centerSpace.Item2) > 2)
-            {
-                return true;
-            }
-
-            return false;
+            return AllTiles;
         }
 
+        private void SelectTileEvent(object sender, MouseButtonEventArgs e)
+        {
+            SelectTile(sender);
+
+        }
+
+        private bool SelectTile(object sender)
+        {
+            Rectangle r = (Rectangle)sender;
+            Tile tile = TileLookup[r];
+            if (ValidMove(tile))
+            {
+                tile.PlacePiece(CurrentPlayer.StoneColor);
+                setCurrentPiece(tile);
+                runChecks();
+                AvailableTiles.Remove(tile);
+                Changeplayer();
+                return true;
+            }
+            return false;
+        }
         //Toggles the who the current player is.
-        internal void TogglePlayer()
+        public void Changeplayer()
         {
             string Alerts = CurrentPlayer.Alerts;
             CurrentPlayer = CurrentPlayer == player1 ? player2 : player1;
@@ -87,19 +118,57 @@ namespace ProjectPente
                 {
                     foreach (Tile tile in AvailableTiles)
                     {
-                        tile.rectangle.MouseDown -= tile.PlacePieceEvent;
+                        tile.Rectangle.MouseDown -= SelectTileEvent;
                     }
                 }
                 else if (!CurrentPlayer.IsComputer)
                 {
                     foreach (Tile tile in AvailableTiles)
                     {
-                        tile.rectangle.MouseDown += tile.PlacePieceEvent;
+                        tile.Rectangle.MouseDown += SelectTileEvent;
                     }
                 }
                 window.UpdateView(CurrentPlayer.Name, Alerts);
             }
         }
+
+
+
+        //Checks if a move is valid per tournament rules
+        internal bool ValidMove(Tile tile)
+        {
+            if (tile.IsTaken)
+            {
+                return false;
+            }
+            if (turnCount == 1 && tile.Position.Equals(CenterSpace))
+            {
+                return true;
+            }
+            else if (turnCount == 3 && OutsideCenter(tile.Position, CenterSpace))
+            {
+                return true;
+            }
+            else if (turnCount != 1 && turnCount != 3)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        //Helper method for ValidMove.
+        private bool OutsideCenter(Tuple<int, int> position, Tuple<int, int> centerSpace)
+        {
+            if (Math.Abs(position.Item1 - centerSpace.Item1) > 2 || Math.Abs(position.Item2 - centerSpace.Item2) > 2)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+
 
         //Sets reference to the piece just placed for win and capture checks and adds it to a list of same colored pieces placed.
         internal void setCurrentPiece(Tile tile)
@@ -278,7 +347,7 @@ namespace ProjectPente
                     int j = item.Position.Item1 + r2.Next(-1, 2);
                     foreach (Tile tile in AvailableTiles)
                     {
-                        if (tile.Position.Item1 == i && tile.Position.Item2 == j && tile.PlacePiece())
+                        if (tile.Position.Item1 == i && tile.Position.Item2 == j && SelectTile(tile.Rectangle))
                         {
                             return;
                         }
@@ -288,7 +357,7 @@ namespace ProjectPente
 
             Random random = new Random();
             int index = random.Next(0, AvailableTiles.Count);
-            AvailableTiles[index].PlacePiece();
+            SelectTile(AvailableTiles[index].Rectangle);
         }
 
         //Returns a piece at a given position.

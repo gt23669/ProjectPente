@@ -80,54 +80,26 @@ namespace ProjectPente
         //Generates game with parameter and takes user to game screen
         internal void Go()
         {
+            string player1 = nameSelect.tbxPlayer1Name.Text;
+            string player2 = nameSelect.tbxPlayer2Name.Text;
+            Mode mode = nameSelect.chkBoxComputer.IsChecked == true ? Mode.PVC : Mode.PVP;
+            game = new GameController(player1, player2, mode, this);
+            int size = (int)nameSelect.sGrid.Value;
+
+            TimerSetup();
+            game.GenerateTiles(size);
+            FillBoard(size);
+            UpdateView(nameSelect.tbxPlayer1Name.Text, null);
+            ShowGameBoard();
+        }
+
+        private void TimerSetup()
+        {
             if (timer != null)
             {
                 timer.Stop();
             }
 
-            UpdateView(nameSelect.tbxPlayer1Name.Text, null);
-            gameOver.Visibility = Visibility.Hidden;
-            gameBoard.ugPenteBoard.Children.Clear();
-            int size = (int)nameSelect.sGrid.Value;
-            gameBoard.ugPenteBoard.Rows = size;
-            gameBoard.ugPenteBoard.Columns = size;
-            row = size;
-            col = size;
-            string player1 = nameSelect.tbxPlayer1Name.Text;
-            string player2 = nameSelect.tbxPlayer2Name.Text;
-            BoardCenter = new Tuple<int, int>((row - 1) / 2, (col - 1) / 2);
-            Mode mode = nameSelect.chkBoxComputer.IsChecked == true ? Mode.PVC : Mode.PVP;
-            game = new GameController(player1, player2, mode, BoardCenter, this);
-            ImageBrush imageStandard = new ImageBrush();
-            imageStandard.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackground.png", UriKind.Relative));
-            ImageBrush imageCenter = new ImageBrush();
-            imageCenter.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackgroundCenter.png", UriKind.Relative));
-
-            for (int i = 0; i < row; i++)
-            {
-                for (int j = 0; j < col; j++)
-                {
-                    Tile t = new Tile(j, i);
-                    t.Game = game;
-                    Rectangle rectangle = new Rectangle()
-                    {
-                        Fill = imageStandard
-                    };
-
-                    if (i == BoardCenter.Item1 && j == BoardCenter.Item2)
-                    {
-                        rectangle.Fill = imageCenter;
-                    }
-
-                    rectangle.MouseDown += t.PlacePieceEvent;
-                    t.rectangle = rectangle;
-                    gameBoard.ugPenteBoard.Children.Add(t.rectangle);
-                    game.AvailableTiles.Add(t);
-                }
-            };
-
-            nameSelect.Visibility = Visibility.Hidden;
-            gameBoard.Visibility = Visibility.Visible;
             turnTime = 20;
             gameBoard.lbTimer.Content = $"{turnTime}s";
 
@@ -138,6 +110,24 @@ namespace ProjectPente
 
             timer.Elapsed += CountDown;
             timer.Start();
+        }
+
+        private void FillBoard(int size)
+        {
+            gameBoard.ugPenteBoard.Children.Clear();
+            gameBoard.ugPenteBoard.Rows = size;
+            gameBoard.ugPenteBoard.Columns = size;
+            foreach (Tile tile in game.GetTiles())
+            {
+                gameBoard.ugPenteBoard.Children.Add(tile.Rectangle);
+            }
+        }
+
+        private void ShowGameBoard()
+        {
+            gameOver.Visibility = Visibility.Hidden;
+            nameSelect.Visibility = Visibility.Hidden;
+            gameBoard.Visibility = Visibility.Visible;
         }
 
         //Displays current player's name and shows any messages.
@@ -165,7 +155,7 @@ namespace ProjectPente
 
                 if (turnTime <= 0)
                 {
-                    game.TogglePlayer();
+                    game.Changeplayer();
                 }
             });
         }

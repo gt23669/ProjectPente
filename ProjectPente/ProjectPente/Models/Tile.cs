@@ -18,63 +18,22 @@ namespace ProjectPente.Models
         EMPTY
     }
 
-    public class Tile : INotifyPropertyChanged
+    public class Tile
     {
-        public Rectangle rectangle { get; set; }
-
+        public Rectangle Rectangle { get; set; }
         public Tuple<int, int> Position { get; set; }
-
-        public int MyProperty { get; set; }
-
         public Piece PieceColor { get; set; }
+        public bool IsTaken { get; set; }
 
-        private bool Taken;
 
-        public bool IsTaken
+        internal void PlacePiece(string color)
         {
-            get { return Taken; }
-            set
-            {
-                Taken = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsTaken"));
-            }
-        }
-
-        public GameController Game { get; internal set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public Tile(int x, int y)
-        {
-            Position = new Tuple<int, int>(x, y);
-        }
-
-        public void PlacePieceEvent(object sender, MouseButtonEventArgs e)
-        {
-            PlacePiece();
-        }
-
-        public bool PlacePiece()
-        {
-            if (!Taken && Game.ValidMove(this))
-            {
-                string color = Game.CurrentPlayer.Name == Game.player1.Name ? "BlackStone" : "WhiteStone";
+                IsTaken = true;
                 PieceColor = color == "BlackStone" ? Piece.BLACK : Piece.WHITE;
                 ImageBrush image = new ImageBrush();
                 image.ImageSource = new BitmapImage(new Uri($"Resources//{color}(Resize).Png", UriKind.Relative));
-                rectangle.Fill = image;
-                Game.setCurrentPiece(this);
-                Game.runChecks();
-                Game.TogglePlayer();
-                Taken = true;
-                return true;
-            }
-            return false;
+                Rectangle.Fill = image;
+
         }
 
         internal void ResetPiece()
@@ -83,7 +42,9 @@ namespace ProjectPente.Models
             PieceColor = Piece.EMPTY;
             ImageBrush image = new ImageBrush();
             image.ImageSource = new BitmapImage(new Uri($"Resources//PenteBoardBackground.png", UriKind.Relative));
-            rectangle.Fill = image;
+            Rectangle.Fill = image;
         }
     }
 }
+
+

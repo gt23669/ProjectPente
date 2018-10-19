@@ -14,13 +14,16 @@ namespace ProjectPente.Models
 
         public string Alerts { get; set; }
 
+        public string StoneColor { get; set; }
+
         public bool IsComputer { get; set; }
 
-        public Player(string name, bool type)
+        public Player(string name, bool type, string color)
         {
             Name = name;
             Captures = 0;
             IsComputer = type;
+            StoneColor = color;
         }
     }
 }
