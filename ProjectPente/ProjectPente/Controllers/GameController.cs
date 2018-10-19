@@ -74,7 +74,7 @@ namespace ProjectPente
         }
 
         //Toggles the who the current player is.
-        internal void TogglePlayer()
+        public void TogglePlayer()
         {
             string Alerts = CurrentPlayer.Alerts;
             CurrentPlayer = CurrentPlayer == player1 ? player2 : player1;
