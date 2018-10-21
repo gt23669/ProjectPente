@@ -29,6 +29,7 @@ namespace ProjectPente
         List<Tile> AllTiles = new List<Tile>();
         Mode Mode;
         private int turnCount;
+        Random r1 = new Random();
 
         /// <summary>
         /// Constructor
@@ -97,20 +98,21 @@ namespace ProjectPente
             if (ValidMove(tile))
             {
                 tile.PlacePiece(CurrentPlayer.StoneColor);
-                setCurrentPiece(tile);
-                runChecks();
+                SetCurrentPiece(tile);
+                RunChecks();
                 AvailableTiles.Remove(tile);
-                Changeplayer();
+                turnCount++;
+                window.UpdateView(CurrentPlayer.Name, CurrentPlayer.Alerts);
+                ChangePlayer();
                 return true;
             }
             return false;
         }
         //Toggles the who the current player is.
-        public void Changeplayer()
+        public void ChangePlayer()
         {
             string Alerts = CurrentPlayer.Alerts;
             CurrentPlayer = CurrentPlayer == player1 ? player2 : player1;
-            turnCount++;
             window.turnTime = 21;
             if (Mode == Mode.PVC)
             {
@@ -131,8 +133,6 @@ namespace ProjectPente
                 window.UpdateView(CurrentPlayer.Name, Alerts);
             }
         }
-
-
 
         //Checks if a move is valid per tournament rules
         internal bool ValidMove(Tile tile)
@@ -167,13 +167,14 @@ namespace ProjectPente
             return false;
         }
 
-
-
-
         //Sets reference to the piece just placed for win and capture checks and adds it to a list of same colored pieces placed.
-        internal void setCurrentPiece(Tile tile)
+        internal void SetCurrentPiece(Tile tile)
         {
             CurrentPiece = tile;
+            if(tile.PieceColor == Piece.EMPTY)
+            {
+                throw new ArgumentException("Tile cannot have color of Piece.Empty");
+            }
             if (tile.PieceColor == Piece.BLACK)
             {
                 BlackPieces.Add(tile);
@@ -188,14 +189,143 @@ namespace ProjectPente
         }
 
         //Runs capture and win checks
-        internal void runChecks()
+        internal void RunChecks()
         {
-            tryCapture(CurrentPiece);
-            checkWinConditions();
+            TryCapture(CurrentPiece);
+            CheckForTria();
+            CheckForTessera();
+            CheckForWin();
         }
 
+
+        //Checks win conditions
+        private void CheckForWin()
+        {
+            if (CurrentPlayer.Captures >= 5)
+            {
+                window.GameOver(CurrentPlayer);
+            }
+
+            Piece color = CurrentPiece.PieceColor;
+
+            foreach (Tessera t in CurrentPlayer.Tesseras)
+            {
+                Tuple<int, int> position1 = new Tuple<int, int>(t.StartingPoint.Item1 - t.Direction.Item1, t.StartingPoint.Item2 - t.Direction.Item2);
+                Tuple<int, int> position2 = new Tuple<int, int>(t.StartingPoint.Item1 + (4 * t.Direction.Item1), t.StartingPoint.Item2 + ( 4 * t.Direction.Item2));
+                Tile t1 = GetPieceAtPosition(position1, CurrentPieces);
+                Tile t2 = GetPieceAtPosition(position2, CurrentPieces);
+
+                bool condition1 = (t1 != null && t1.PieceColor == color);
+                bool condition2 = (t2 != null && t2.PieceColor == color);
+                if (condition1 || condition2)
+                {
+                    window.GameOver(CurrentPlayer);
+                    return;
+                }
+            }
+        }
+        //Checks for Tessers
+        private void CheckForTessera()
+        {
+            Piece color = CurrentPiece.PieceColor;
+            foreach (Tria t in CurrentPlayer.Trias)
+            {
+                Tuple<int, int> position1 = new Tuple<int, int>(t.StartingPoint.Item1 - t.Direction.Item1, t.StartingPoint.Item2 - t.Direction.Item2);
+                Tuple<int, int> position2 = new Tuple<int, int>(t.StartingPoint.Item1 + (3 * t.Direction.Item1), t.StartingPoint.Item2 + (3 * t.Direction.Item2));
+                Tuple<int, int> position3 = new Tuple<int, int>(t.StartingPoint.Item1 - (2 * t.Direction.Item1), t.StartingPoint.Item2 - (2 * t.Direction.Item2));
+                Tuple<int, int> position4 = new Tuple<int, int>(t.StartingPoint.Item1 + (4 * t.Direction.Item1), t.StartingPoint.Item2 + (4 * t.Direction.Item2));
+                Tile t1 = GetPieceAtPosition(position1, CurrentPieces);
+                Tile t2 = GetPieceAtPosition(position2, CurrentPieces);
+                Tile t3 = GetPieceAtPosition(position3, CurrentPieces);
+                Tile t4 = GetPieceAtPosition(position4, CurrentPieces);
+            
+
+                if (t1 != null && t1.PieceColor == color && t3 == null && t4 == null)
+                {
+                    CurrentPlayer.Tesseras.Add(new Tessera()
+                    {
+                        StartingPoint = position1,
+                        Direction = t.Direction
+
+                    });
+                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
+                } else if(t2 != null && t2.PieceColor == color && t3 == null && t4 == null)
+                {
+                    CurrentPlayer.Tesseras.Add(new Tessera()
+                    {
+                        StartingPoint = position2,
+                        Direction = t.Direction
+                    });
+                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
+                }
+            }
+        }
+        //Checks for Tria
+        private void CheckForTria()
+        {
+            foreach (Tile tile in CurrentPieces)
+            {
+                for (int i = -1; i < 2; i++)
+                {
+                    for (int j = -1; j < 1; j++)
+                    {
+                        if (i != 0 || j != 0)
+                        {
+                            Tuple<int, int> position = new Tuple<int, int>(tile.Position.Item1 + i, tile.Position.Item2 + j);
+                            int ConsecutivePieces = 1;
+
+
+                            while (GetPieceAtPosition(position, CurrentPieces) != null)
+                            {
+                                position = new Tuple<int, int>(position.Item1 + i, position.Item2 + j);
+                                ConsecutivePieces++;
+                            }
+                            if (ConsecutivePieces == 3)
+                            {
+                                Tuple<int, int> position1 = new Tuple<int, int>(tile.Position.Item1 - i, tile.Position.Item2 - j);
+                                Tuple<int, int> position2 = new Tuple<int, int>(tile.Position.Item1 + (3*i), tile.Position.Item2 + (3*j));
+                                Tile t1 = GetPieceAtPosition(position1, AllTiles);
+                                Tile t2 = GetPieceAtPosition(position2, AllTiles);
+                                bool condition1 = (t1 != null && (!t1.IsTaken || t1.PieceColor == CurrentPiece.PieceColor));
+                                bool condition2 = (t2 != null && (!t2.IsTaken || t2.PieceColor == CurrentPiece.PieceColor));
+
+
+                                if (condition1 && condition2)
+                                {
+                                    Tria tria = new Tria()
+                                    {
+                                        StartingPoint = tile.Position,
+                                        Direction = new Tuple<int, int>(i, j)
+                                    };
+                                    
+                                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tria!";
+                                    foreach (Tria t in CurrentPlayer.Trias)
+                                    {
+                                        if (t.Equals(tria))
+                                        {
+                                            tria = null;
+                                        }
+                                    }
+
+                                    if (tria != null)
+                                    {
+                                        CurrentPlayer.Trias.Add(tria);
+                                    }
+                                }
+
+                            }
+                            if(ConsecutivePieces == 5)
+                            {
+                                window.GameOver(CurrentPlayer);
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
         //Performs a capture based on last piece placed if possible.
-        private void tryCapture(Tile currentPiece)
+        private void TryCapture(Tile currentPiece)
         {
             List<Tile> Capturing = new List<Tile>();
             List<Tile> Captured = new List<Tile>();
@@ -333,18 +463,28 @@ namespace ProjectPente
                     break;
             }
         }
-
         //Handles the logic for the computer's turn if there is a computer opponent.
         internal void ComputerTurn()
         {
-            Random r1 = new Random();
-            Random r2 = new Random();
+            if (turnCount == 1)
+            {
+                foreach (Tile tile in AvailableTiles)
+                {
+                    if (tile.Position.Equals(CenterSpace))
+                    {
+                        SelectTile(tile.Rectangle);
+                        return;
+                    }
+                }
+            }
+            
+            
             foreach (Tile item in WhitePieces)
             {
                 for (int c = 0; c < 9; c++)
                 {
                     int i = item.Position.Item1 + r1.Next(-1, 2);
-                    int j = item.Position.Item1 + r2.Next(-1, 2);
+                    int j = item.Position.Item2 + r1.Next(-1, 2);
                     foreach (Tile tile in AvailableTiles)
                     {
                         if (tile.Position.Item1 == i && tile.Position.Item2 == j && SelectTile(tile.Rectangle))
@@ -359,11 +499,10 @@ namespace ProjectPente
             int index = random.Next(0, AvailableTiles.Count);
             SelectTile(AvailableTiles[index].Rectangle);
         }
-
         //Returns a piece at a given position.
-        private Tile GetPieceAtPosition(Tuple<int, int> position, List<Tile> captured)
+        private Tile GetPieceAtPosition(Tuple<int, int> position, List<Tile> pieces)
         {
-            foreach (Tile tile in captured)
+            foreach (Tile tile in pieces)
             {
                 if (tile.Position.Equals(position))
                 {
@@ -374,107 +513,6 @@ namespace ProjectPente
             return null;
         }
 
-        //Checks win conditions
-        private void checkWinConditions()
-        {
-            if (CurrentPlayer.Captures >= 5)
-            {
-                window.GameOver(CurrentPlayer);
-            }
-            foreach (Tile tile in CurrentPieces)
-            {
-                Tuple<int, int> position = new Tuple<int, int>(tile.Position.Item1 - 1, tile.Position.Item2 - 1);
-                int ConsecutivePieces = 1;
-                while (GetPieceAtPosition(position, CurrentPieces) != null)
-                {
-                    position = new Tuple<int, int>(position.Item1 - 1, position.Item2 - 1);
-                    ConsecutivePieces++;
-                }
-                if (ConsecutivePieces >= 3)
-                {
-                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tria!";
-                    if (ConsecutivePieces >= 4)
-                    {
-                        CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
-                        if (ConsecutivePieces >= 5)
-                        {
-                            window.GameOver(CurrentPlayer);
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    position = new Tuple<int, int>(tile.Position.Item1 - 1, tile.Position.Item2 + 1);
-                    ConsecutivePieces = 1;
-                }
-                while (GetPieceAtPosition(position, CurrentPieces) != null)
-                {
-                    position = new Tuple<int, int>(position.Item1 - 1, position.Item2 + 1);
-                    ConsecutivePieces++;
-                }
-                if (ConsecutivePieces >= 3)
-                {
-                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tria!";
-                    if (ConsecutivePieces >= 4)
-                    {
-                        CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
-                        if (ConsecutivePieces >= 5)
-                        {
-                            window.GameOver(CurrentPlayer);
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    position = new Tuple<int, int>(tile.Position.Item1, tile.Position.Item2 - 1);
-                    ConsecutivePieces = 1;
-                }
-
-                while (GetPieceAtPosition(position, CurrentPieces) != null)
-                {
-                    position = new Tuple<int, int>(position.Item1, position.Item2 - 1);
-                    ConsecutivePieces++;
-                }
-                if (ConsecutivePieces >= 3)
-                {
-                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tria!";
-                    if (ConsecutivePieces >= 4)
-                    {
-                        CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
-                        if (ConsecutivePieces >= 5)
-                        {
-                            window.GameOver(CurrentPlayer);
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    position = new Tuple<int, int>(tile.Position.Item1 - 1, tile.Position.Item2);
-                    ConsecutivePieces = 1;
-                }
-
-                while (GetPieceAtPosition(position, CurrentPieces) != null)
-                {
-                    position = new Tuple<int, int>(position.Item1 - 1, position.Item2);
-                    ConsecutivePieces++;
-                }
-                if (ConsecutivePieces >= 3)
-                {
-                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tria!";
-                    if (ConsecutivePieces >= 4)
-                    {
-                        CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
-                        if (ConsecutivePieces >= 5)
-                        {
-                            window.GameOver(CurrentPlayer);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
+        
     }
 }

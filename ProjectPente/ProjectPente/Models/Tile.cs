@@ -13,9 +13,9 @@ namespace ProjectPente.Models
 {
     public enum Piece
     {
+        EMPTY,
         BLACK,
-        WHITE,
-        EMPTY
+        WHITE
     }
 
     public class Tile

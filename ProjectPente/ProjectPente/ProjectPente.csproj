@@ -57,7 +57,9 @@
     </ApplicationDefinition>
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Models\Player.cs" />
+    <Compile Include="Models\Tessera.cs" />
     <Compile Include="Models\Tile.cs" />
+    <Compile Include="Models\Tria.cs" />
     <Compile Include="PENTE_User_Controls\GameBoardUC.xaml.cs">
       <DependentUpon>GameBoardUC.xaml</DependentUpon>
     </Compile>

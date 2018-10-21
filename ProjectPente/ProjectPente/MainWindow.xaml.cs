@@ -37,8 +37,7 @@ namespace ProjectPente
         public int turnTime;
         public Tuple<int, int> BoardCenter { get; private set; }
         GameController game;
-        int row;
-        int col;
+
 
         //Constructor: Initializes windows
         public MainWindow()
@@ -55,6 +54,15 @@ namespace ProjectPente
             nameSelect.window = this;
             gameBoard.window = this;
             gameOver.window = this;
+        }
+
+        internal void CloseGame()
+        {
+            if(timer != null)
+            {
+                timer.Stop();
+            }
+            this.Close();
         }
 
         //Returns user to Main Menu screen.
@@ -93,6 +101,7 @@ namespace ProjectPente
             ShowGameBoard();
         }
 
+        //Sets up and starts a timer
         private void TimerSetup()
         {
             if (timer != null)
@@ -143,19 +152,18 @@ namespace ProjectPente
             this.Dispatcher.Invoke(() =>
             {
                 Random random = new Random();
-                //int offset = random.Next(0, 5);
-                int offset = 0;
                 turnTime--;
                 gameBoard.lbTimer.Content = $"{turnTime}s";
 
-                if (game.CurrentPlayer.IsComputer && turnTime < 20 - offset)
+                if (game.CurrentPlayer.IsComputer && turnTime < 20)
                 {
                     game.ComputerTurn();
                 }
 
                 if (turnTime <= 0)
                 {
-                    game.Changeplayer();
+                    //game.ChangePlayer();
+                    turnTime = 21;
                 }
             });
         }

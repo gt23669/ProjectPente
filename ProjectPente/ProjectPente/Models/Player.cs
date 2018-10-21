@@ -18,12 +18,19 @@ namespace ProjectPente.Models
 
         public bool IsComputer { get; set; }
 
+        public List<Tria> Trias { get; set; }
+
+        public List<Tessera> Tesseras { get; set; } 
+
+
         public Player(string name, bool type, string color)
         {
             Name = name;
             Captures = 0;
             IsComputer = type;
             StoneColor = color;
+            Trias = new List<Tria>();
+            Tesseras = new List<Tessera>();
         }
     }
 }

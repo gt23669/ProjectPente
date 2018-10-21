@@ -44,7 +44,7 @@ namespace ProjectPente.PENTE_User_Controls
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            window.Close();
+            window.CloseGame();
         }
     }
 }
