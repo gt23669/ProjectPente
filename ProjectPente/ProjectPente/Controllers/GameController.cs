@@ -111,7 +111,7 @@ namespace ProjectPente
         //Toggles the who the current player is.
         public void ChangePlayer()
         {
-            string Alerts = CurrentPlayer.Alerts;
+            CurrentPlayer.Alerts = "";
             CurrentPlayer = CurrentPlayer == player1 ? player2 : player1;
             window.turnTime = 21;
             if (Mode == Mode.PVC)
@@ -130,7 +130,6 @@ namespace ProjectPente
                         tile.Rectangle.MouseDown += SelectTileEvent;
                     }
                 }
-                window.UpdateView(CurrentPlayer.Name, Alerts);
             }
         }
 
@@ -192,9 +191,40 @@ namespace ProjectPente
         internal void RunChecks()
         {
             TryCapture(CurrentPiece);
+            VerifyTrias();
             CheckForTria();
             CheckForTessera();
             CheckForWin();
+        }
+
+        private void VerifyTrias()
+        {
+            Player player = CurrentPlayer == player1 ? player2 : player1;
+            List<Tria> NotValid = new List<Tria>();
+            foreach (Tria tria in player.Trias) 
+            {
+                Tuple<int, int> position1 = new Tuple<int, int>(tria.StartingPoint.Item1 - tria.Direction.Item1, tria.StartingPoint.Item2 - tria.Direction.Item2);
+                Tuple<int, int> position2 = new Tuple<int, int>(tria.StartingPoint.Item1 + (3 * tria.Direction.Item1), tria.StartingPoint.Item2 + (3 *tria.Direction.Item2));
+                Tile t1 = GetPieceAtPosition(position1, AllTiles);
+                Tile t2 = GetPieceAtPosition(position2, AllTiles);
+
+                bool condition1 = (t1 == null || t1.PieceColor == Piece.EMPTY);
+                bool condition2 = (t2 == null || t2.PieceColor == Piece.EMPTY);
+
+
+                if(!condition1 || !condition2)
+                {
+                    NotValid.Add(tria);
+                }
+
+            }
+
+            foreach (Tria tria in NotValid)
+            {
+                player.Trias.Remove(tria);
+            }
+
+
         }
 
 
@@ -224,10 +254,11 @@ namespace ProjectPente
                 }
             }
         }
-        //Checks for Tessers
+        //Checks for any Tesseras
         private void CheckForTessera()
         {
             Piece color = CurrentPiece.PieceColor;
+            Tessera tessera = null;
             foreach (Tria t in CurrentPlayer.Trias)
             {
                 Tuple<int, int> position1 = new Tuple<int, int>(t.StartingPoint.Item1 - t.Direction.Item1, t.StartingPoint.Item2 - t.Direction.Item2);
@@ -242,25 +273,41 @@ namespace ProjectPente
 
                 if (t1 != null && t1.PieceColor == color && t3 == null && t4 == null)
                 {
-                    CurrentPlayer.Tesseras.Add(new Tessera()
+                    tessera = new Tessera()
                     {
                         StartingPoint = position1,
                         Direction = t.Direction
 
-                    });
-                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
+                    };
+                    
                 } else if(t2 != null && t2.PieceColor == color && t3 == null && t4 == null)
                 {
-                    CurrentPlayer.Tesseras.Add(new Tessera()
+                    tessera = new Tessera()
                     {
                         StartingPoint = position2,
-                        Direction = t.Direction
-                    });
-                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
+                        Direction = new Tuple<int, int>(-t.Direction.Item1, -t.Direction.Item2)
+                    };
+                    
                 }
+
+                foreach (Tessera tess in CurrentPlayer.Tesseras)
+                {
+                    if (tess.Equals(tessera))
+                    {
+                        tessera = null;
+                    }
+                }
+
+                if (tessera != null)
+                {
+                    CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
+                    CurrentPlayer.Tesseras.Add(tessera);
+                }
+
+
             }
         }
-        //Checks for Tria
+        //Checks for any Trias
         private void CheckForTria()
         {
             foreach (Tile tile in CurrentPieces)
@@ -271,7 +318,7 @@ namespace ProjectPente
                     {
                         if (i != 0 || j != 0)
                         {
-                            Tuple<int, int> position = new Tuple<int, int>(tile.Position.Item1 + i, tile.Position.Item2 + j);
+                            Tuple<int, int> position = new Tuple<int, int>(tile.Position.Item1 + i, tile.Position.Item2 + j); 
                             int ConsecutivePieces = 1;
 
 

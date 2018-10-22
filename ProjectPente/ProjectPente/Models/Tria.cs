@@ -14,8 +14,19 @@ namespace ProjectPente.Models
         public override bool Equals(object obj)
         {
             Tria t = (Tria)obj;
+            if (t != null)
+            {
+                return t.StartingPoint == this.StartingPoint && t.Direction == this.Direction;
+            }
+            return false;
+        }
 
-            return t.StartingPoint == this.StartingPoint && t.Direction == this.Direction;
+        public override int GetHashCode()
+        {
+            var hashCode = -1926835897;
+            hashCode = hashCode * -1521134295 + EqualityComparer<Tuple<int, int>>.Default.GetHashCode(StartingPoint);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Tuple<int, int>>.Default.GetHashCode(Direction);
+            return hashCode;
         }
     }
 
