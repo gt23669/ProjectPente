@@ -13,5 +13,6 @@ namespace ProjectPente
     /// </summary>
     public partial class App : Application
     {
+        //
     }
 }

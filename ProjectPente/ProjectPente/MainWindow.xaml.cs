@@ -38,7 +38,6 @@ namespace ProjectPente
         public Tuple<int, int> BoardCenter { get; private set; }
         GameController game;
 
-
         //Constructor: Initializes windows
         public MainWindow()
         {
@@ -56,35 +55,6 @@ namespace ProjectPente
             gameOver.window = this;
         }
 
-        internal void CloseGame()
-        {
-            if(timer != null)
-            {
-                timer.Stop();
-            }
-            this.Close();
-        }
-
-        //Returns user to Main Menu screen.
-        internal void MainMenu()
-        {
-            titleScreen.Visibility = Visibility.Visible;
-            nameSelect.Visibility = Visibility.Hidden;
-            gameBoard.Visibility = Visibility.Hidden;
-            gameOver.Visibility = Visibility.Hidden;
-            if (timer != null)
-            {
-                timer.Stop();
-            }
-        }
-
-        //Takes User to Name Select Screen
-        internal void StartGame()
-        {
-            titleScreen.Visibility = Visibility.Hidden;
-            nameSelect.Visibility = Visibility.Visible;
-        }
-
         //Generates game with parameter and takes user to game screen
         internal void Go()
         {
@@ -99,6 +69,60 @@ namespace ProjectPente
             FillBoard(size);
             UpdateView(nameSelect.tbxPlayer1Name.Text, null);
             ShowGameBoard();
+        }
+
+        #region Views
+        //Returns user to Main Menu screen.
+        internal void MainMenu()
+        {
+            titleScreen.Visibility = Visibility.Visible;
+            nameSelect.Visibility = Visibility.Hidden;
+            gameBoard.Visibility = Visibility.Hidden;
+            gameOver.Visibility = Visibility.Hidden;
+            if (timer != null)
+            {
+                timer.Stop();
+            }
+        }
+        //Takes User to Name Select Screen
+        internal void StartGame()
+        {
+            titleScreen.Visibility = Visibility.Hidden;
+            nameSelect.Visibility = Visibility.Visible;
+        }
+        //Takes user to the gameplay screen
+        private void ShowGameBoard()
+        {
+            gameOver.Visibility = Visibility.Hidden;
+            nameSelect.Visibility = Visibility.Hidden;
+            gameBoard.Visibility = Visibility.Visible;
+        }
+        //Displays the winner when the game ends.
+        internal void GameOver(Player currentPlayer)
+        {
+            gameBoard.Visibility = Visibility.Hidden;
+            gameOver.Visibility = Visibility.Visible;
+            gameOver.lb_winner.Content = $"{currentPlayer.Name} wins!";
+            timer.Stop();
+        }
+        #endregion
+        //Fills the game board with the tiles from the game class
+        private void FillBoard(int size)
+        {
+            gameBoard.ugPenteBoard.Children.Clear();
+            gameBoard.ugPenteBoard.Rows = size;
+            gameBoard.ugPenteBoard.Columns = size;
+            foreach (Tile tile in game.GetTiles())
+            {
+                gameBoard.ugPenteBoard.Children.Add(tile.Rectangle);
+            }
+        }
+
+        //Displays current player's name and shows any messages.
+        internal void UpdateView(string name, string alerts)
+        {
+            gameBoard.lbPlayerLabel.Content = $"{name}'s Turn";
+            gameBoard.lbAlert.Content = alerts;
         }
 
         //Sets up and starts a timer
@@ -119,31 +143,6 @@ namespace ProjectPente
 
             timer.Elapsed += CountDown;
             timer.Start();
-        }
-
-        private void FillBoard(int size)
-        {
-            gameBoard.ugPenteBoard.Children.Clear();
-            gameBoard.ugPenteBoard.Rows = size;
-            gameBoard.ugPenteBoard.Columns = size;
-            foreach (Tile tile in game.GetTiles())
-            {
-                gameBoard.ugPenteBoard.Children.Add(tile.Rectangle);
-            }
-        }
-
-        private void ShowGameBoard()
-        {
-            gameOver.Visibility = Visibility.Hidden;
-            nameSelect.Visibility = Visibility.Hidden;
-            gameBoard.Visibility = Visibility.Visible;
-        }
-
-        //Displays current player's name and shows any messages.
-        internal void UpdateView(string name, string alerts)
-        {
-            gameBoard.lbPlayerLabel.Content = $"{name}'s Turn";
-            gameBoard.lbAlert.Content = alerts;
         }
 
         //Logic for turn timer. Counts down from 20 and switches players at 0.
@@ -168,13 +167,14 @@ namespace ProjectPente
             });
         }
 
-        //Displays the winner when the game ends.
-        internal void GameOver(Player currentPlayer)
+        //Stops Timer and closes the application
+        internal void CloseGame()
         {
-            gameBoard.Visibility = Visibility.Hidden;
-            gameOver.Visibility = Visibility.Visible;
-            gameOver.lb_winner.Content = $"{currentPlayer.Name} wins!";
-            timer.Stop();
+            if(timer != null)
+            {
+                timer.Stop();
+            }
+            this.Close();
         }
     }
 }
