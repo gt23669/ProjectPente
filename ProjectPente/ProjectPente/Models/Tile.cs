@@ -40,6 +40,7 @@ namespace ProjectPente.Models
                 Rectangle.Fill = image;
 
         }
+
         //Resets tile properties to default when a piece is removed.
         internal void ResetPiece()
         {

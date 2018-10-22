@@ -38,7 +38,6 @@ namespace ProjectPente
         public Tuple<int, int> BoardCenter { get; private set; }
         GameController game;
 
-
         //Constructor: Initializes windows
         public MainWindow()
         {
@@ -56,8 +55,6 @@ namespace ProjectPente
             gameOver.window = this;
         }
 
-
-
         //Generates game with parameter and takes user to game screen
         internal void Go()
         {
@@ -73,9 +70,6 @@ namespace ProjectPente
             UpdateView();
             ShowGameBoard();
         }
-
-
-
 
         #region Views
         //Returns user to Main Menu screen.
@@ -112,11 +106,6 @@ namespace ProjectPente
             timer.Stop();
         }
         #endregion
-
-
-
-
-
         //Fills the game board with the tiles from the game class
         private void FillBoard(int size)
         {
@@ -182,9 +171,6 @@ namespace ProjectPente
                 }
             });
         }
-
-
-
 
         //Stops Timer and closes the application
         internal void CloseGame()

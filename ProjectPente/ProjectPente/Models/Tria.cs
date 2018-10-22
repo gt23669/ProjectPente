@@ -30,6 +30,4 @@ namespace ProjectPente.Models
             return hashCode;
         }
     }
-
-    
 }

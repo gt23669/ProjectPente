@@ -11,7 +11,6 @@ namespace ProjectPente.Models
         public Tuple<int, int> StartingPoint { get; set; }
         public Tuple<int, int> Direction { get; set; }
 
-
         public override bool Equals(object obj)
         {
             Tessera tessera = (Tessera)obj;

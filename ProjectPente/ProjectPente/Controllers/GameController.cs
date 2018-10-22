@@ -80,20 +80,19 @@ namespace ProjectPente
                 }
             }
         }
+
         //Returns all tiles to the view.
         public List<Tile> GetTiles()
         {
             return AllTiles;
         }
 
-
-
         //Event handler for tile clicks
         private void SelectTileEvent(object sender, MouseButtonEventArgs e)
         {
             SelectTile(sender);
-
         }
+
         //Attempts to place a oiece on a tile, returns false if invalid move.
         private bool SelectTile(object sender)
         {
@@ -112,14 +111,12 @@ namespace ProjectPente
             return false;
         }
 
-
-
         #region Turn Flow Logic
         //Sets reference to the piece just placed for win and capture checks and adds it to a list of same colored pieces placed.
         internal void SetCurrentPiece(Tile tile)
         {
             CurrentPiece = tile;
-            if(tile.PieceColor == Piece.EMPTY)
+            if (tile.PieceColor == Piece.EMPTY)
             {
                 throw new ArgumentException("Tile cannot have color of Piece.Empty");
             }
@@ -144,6 +141,7 @@ namespace ProjectPente
             CheckForTessera();
             CheckForWin();
         }
+
         //Toggles the who the current player is.
         public void ChangePlayer()
         {
@@ -169,6 +167,7 @@ namespace ProjectPente
             }
                 window.UpdateView();
         }
+
         //Handles the logic for the computer's turn if there is a computer opponent.
         internal void ComputerTurn()
         {
@@ -183,8 +182,7 @@ namespace ProjectPente
                     }
                 }
             }
-            
-            
+
             foreach (Tile item in WhitePieces)
             {
                 for (int c = 0; c < 9; c++)
@@ -206,7 +204,6 @@ namespace ProjectPente
             SelectTile(AvailableTiles[index].Rectangle);
         }
         #endregion
-
 
         #region Checks
         //Performs a capture based on last piece placed if possible.
@@ -348,23 +345,23 @@ namespace ProjectPente
                     break;
             }
         }
+
         //Checks to see if a previously placed tria has been invalidated by the opponent.
         private void VerifyTrias()
         {
             Player player = CurrentPlayer == player1 ? player2 : player1;
             List<Tria> NotValid = new List<Tria>();
-            foreach (Tria tria in player.Trias) 
+            foreach (Tria tria in player.Trias)
             {
                 Tuple<int, int> position1 = new Tuple<int, int>(tria.StartingPoint.Item1 - tria.Direction.Item1, tria.StartingPoint.Item2 - tria.Direction.Item2);
-                Tuple<int, int> position2 = new Tuple<int, int>(tria.StartingPoint.Item1 + (3 * tria.Direction.Item1), tria.StartingPoint.Item2 + (3 *tria.Direction.Item2));
+                Tuple<int, int> position2 = new Tuple<int, int>(tria.StartingPoint.Item1 + (3 * tria.Direction.Item1), tria.StartingPoint.Item2 + (3 * tria.Direction.Item2));
                 Tile t1 = GetPieceAtPosition(position1, AllTiles);
                 Tile t2 = GetPieceAtPosition(position2, AllTiles);
 
                 bool condition1 = (t1 == null || t1.PieceColor == Piece.EMPTY);
                 bool condition2 = (t2 == null || t2.PieceColor == Piece.EMPTY);
 
-
-                if(!condition1 || !condition2)
+                if (!condition1 || !condition2)
                 {
                     NotValid.Add(tria);
                 }
@@ -375,9 +372,8 @@ namespace ProjectPente
             {
                 player.Trias.Remove(tria);
             }
-
-
         }
+
         //Checks for any Trias
         private void CheckForTria()
         {
@@ -389,9 +385,8 @@ namespace ProjectPente
                     {
                         if (i != 0 || j != 0)
                         {
-                            Tuple<int, int> position = new Tuple<int, int>(tile.Position.Item1 + i, tile.Position.Item2 + j); 
+                            Tuple<int, int> position = new Tuple<int, int>(tile.Position.Item1 + i, tile.Position.Item2 + j);
                             int ConsecutivePieces = 1;
-
 
                             while (GetPieceAtPosition(position, CurrentPieces) != null)
                             {
@@ -401,12 +396,11 @@ namespace ProjectPente
                             if (ConsecutivePieces == 3)
                             {
                                 Tuple<int, int> position1 = new Tuple<int, int>(tile.Position.Item1 - i, tile.Position.Item2 - j);
-                                Tuple<int, int> position2 = new Tuple<int, int>(tile.Position.Item1 + (3*i), tile.Position.Item2 + (3*j));
+                                Tuple<int, int> position2 = new Tuple<int, int>(tile.Position.Item1 + (3 * i), tile.Position.Item2 + (3 * j));
                                 Tile t1 = GetPieceAtPosition(position1, AllTiles);
                                 Tile t2 = GetPieceAtPosition(position2, AllTiles);
                                 bool condition1 = (t1 != null && (!t1.IsTaken || t1.PieceColor == CurrentPiece.PieceColor));
                                 bool condition2 = (t2 != null && (!t2.IsTaken || t2.PieceColor == CurrentPiece.PieceColor));
-
 
                                 if (condition1 && condition2)
                                 {
@@ -415,7 +409,7 @@ namespace ProjectPente
                                         StartingPoint = tile.Position,
                                         Direction = new Tuple<int, int>(i, j)
                                     };
-                                    
+
                                     CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tria!";
                                     foreach (Tria t in CurrentPlayer.Trias)
                                     {
@@ -430,9 +424,9 @@ namespace ProjectPente
                                         CurrentPlayer.Trias.Add(tria);
                                     }
                                 }
-
                             }
-                            if(ConsecutivePieces == 5)
+
+                            if (ConsecutivePieces == 5)
                             {
                                 window.GameOver(CurrentPlayer);
                             }
@@ -442,6 +436,7 @@ namespace ProjectPente
                 }
             }
         }
+
         //Checks for any Tesseras
         private void CheckForTessera()
         {
@@ -457,7 +452,6 @@ namespace ProjectPente
                 Tile t2 = GetPieceAtPosition(position2, CurrentPieces);
                 Tile t3 = GetPieceAtPosition(position3, CurrentPieces);
                 Tile t4 = GetPieceAtPosition(position4, CurrentPieces);
-            
 
                 if (t1 != null && t1.PieceColor == color && t3 == null && t4 == null)
                 {
@@ -467,15 +461,16 @@ namespace ProjectPente
                         Direction = t.Direction
 
                     };
-                    
-                } else if(t2 != null && t2.PieceColor == color && t3 == null && t4 == null)
+
+                }
+                else if (t2 != null && t2.PieceColor == color && t3 == null && t4 == null)
                 {
                     tessera = new Tessera()
                     {
                         StartingPoint = position2,
                         Direction = new Tuple<int, int>(-t.Direction.Item1, -t.Direction.Item2)
                     };
-                    
+
                 }
 
                 foreach (Tessera tess in CurrentPlayer.Tesseras)
@@ -491,10 +486,9 @@ namespace ProjectPente
                     CurrentPlayer.Alerts = $"{CurrentPlayer.Name} has a Tessera!";
                     CurrentPlayer.Tesseras.Add(tessera);
                 }
-
-
             }
         }
+
         //Checks win conditions
         private void CheckForWin()
         {
@@ -508,7 +502,7 @@ namespace ProjectPente
             foreach (Tessera t in CurrentPlayer.Tesseras)
             {
                 Tuple<int, int> position1 = new Tuple<int, int>(t.StartingPoint.Item1 - t.Direction.Item1, t.StartingPoint.Item2 - t.Direction.Item2);
-                Tuple<int, int> position2 = new Tuple<int, int>(t.StartingPoint.Item1 + (4 * t.Direction.Item1), t.StartingPoint.Item2 + ( 4 * t.Direction.Item2));
+                Tuple<int, int> position2 = new Tuple<int, int>(t.StartingPoint.Item1 + (4 * t.Direction.Item1), t.StartingPoint.Item2 + (4 * t.Direction.Item2));
                 Tile t1 = GetPieceAtPosition(position1, CurrentPieces);
                 Tile t2 = GetPieceAtPosition(position2, CurrentPieces);
 
@@ -522,7 +516,6 @@ namespace ProjectPente
             }
         }
         #endregion
-
 
         #region Helper methods
         //Checks if a move is valid per tournament rules
@@ -547,6 +540,7 @@ namespace ProjectPente
             }
             return false;
         }
+
         //Helper method for ValidMove.
         public bool OutsideCenter(Tuple<int, int> position, Tuple<int, int> centerSpace)
         {
@@ -557,6 +551,7 @@ namespace ProjectPente
 
             return false;
         }
+
         //Returns a piece at a given position.
         private Tile GetPieceAtPosition(Tuple<int, int> position, List<Tile> pieces)
         {
@@ -571,9 +566,5 @@ namespace ProjectPente
             return null;
         }
         #endregion
-
-
-
-        
     }
 }
