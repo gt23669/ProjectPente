@@ -125,6 +125,9 @@ namespace ProjectPente
             gameBoard.lbAlert.Content = alerts;
         }
 
+
+
+
         //Sets up and starts a timer
         private void TimerSetup()
         {

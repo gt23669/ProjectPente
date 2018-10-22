@@ -133,7 +133,6 @@ namespace ProjectPente
             }
             AvailableTiles.Remove(tile);
         }
-
         //Runs capture and win checks
         internal void RunChecks()
         {
@@ -366,6 +365,7 @@ namespace ProjectPente
                 {
                     NotValid.Add(tria);
                 }
+
             }
 
             foreach (Tria tria in NotValid)
@@ -432,6 +432,7 @@ namespace ProjectPente
                             }
                         }
                     }
+
                 }
             }
         }
