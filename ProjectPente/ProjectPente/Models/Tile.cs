@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 
 namespace ProjectPente.Models
 {
+    //The color of a piece on a tile.
     public enum Piece
     {
         EMPTY,
@@ -20,12 +21,16 @@ namespace ProjectPente.Models
 
     public class Tile
     {
+        //The rectangle of a tile that is sent to a view
         public Rectangle Rectangle { get; set; }
+        //The position of the tile instance.
         public Tuple<int, int> Position { get; set; }
+        //The color of the piece associated with the tile
         public Piece PieceColor { get; set; }
+        //Denotes if a tile has been taken by a player
         public bool IsTaken { get; set; }
 
-
+        //Sets the fill of the rectangle to reflect the piece placed there.
         internal void PlacePiece(string color)
         {
                 IsTaken = true;
@@ -35,7 +40,7 @@ namespace ProjectPente.Models
                 Rectangle.Fill = image;
 
         }
-
+        //Resets tile properties to default when a piece is removed.
         internal void ResetPiece()
         {
             IsTaken = false;

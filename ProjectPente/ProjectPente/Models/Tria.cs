@@ -8,9 +8,10 @@ namespace ProjectPente.Models
 {
     public class Tria
     {
+        
         public Tuple<int, int> StartingPoint { get; set; }
         public Tuple<int, int> Direction{ get; set; }
-
+        
         public override bool Equals(object obj)
         {
             Tria t = (Tria)obj;
