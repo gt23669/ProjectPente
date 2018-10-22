@@ -106,7 +106,6 @@ namespace ProjectPente
                 RunChecks();
                 AvailableTiles.Remove(tile);
                 turnCount++;
-                window.UpdateView(CurrentPlayer.Name, CurrentPlayer.Alerts);
                 ChangePlayer();
                 return true;
             }
@@ -148,8 +147,8 @@ namespace ProjectPente
         //Toggles the who the current player is.
         public void ChangePlayer()
         {
-            CurrentPlayer.Alerts = "";
             CurrentPlayer = CurrentPlayer == player1 ? player2 : player1;
+            CurrentPlayer.Alerts = "";
             window.turnTime = 21;
             if (Mode == Mode.PVC)
             {
@@ -168,6 +167,7 @@ namespace ProjectPente
                     }
                 }
             }
+                window.UpdateView();
         }
         //Handles the logic for the computer's turn if there is a computer opponent.
         internal void ComputerTurn()
@@ -534,6 +534,7 @@ namespace ProjectPente
             }
             if (turnCount == 1 && tile.Position.Equals(CenterSpace))
             {
+                window.StartTimer();
                 return true;
             }
             else if (turnCount == 3 && OutsideCenter(tile.Position, CenterSpace))

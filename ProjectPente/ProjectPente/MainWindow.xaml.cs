@@ -70,7 +70,7 @@ namespace ProjectPente
             TimerSetup();
             game.GenerateTiles(size);
             FillBoard(size);
-            UpdateView(nameSelect.tbxPlayer1Name.Text, null);
+            UpdateView();
             ShowGameBoard();
         }
 
@@ -130,10 +130,13 @@ namespace ProjectPente
         }
 
         //Displays current player's name and shows any messages.
-        internal void UpdateView(string name, string alerts)
+        internal void UpdateView()
         {
-            gameBoard.lbPlayerLabel.Content = $"{name}'s Turn";
-            gameBoard.lbAlert.Content = alerts;
+            Player previousPlayer = game.CurrentPlayer == game.player1 ? game.player2 : game.player2;
+            gameBoard.lbPlayerLabel.Content = $"{game.CurrentPlayer.Name}'s Turn";
+            gameBoard.lbAlert.Content = previousPlayer.Alerts;
+            gameBoard.lbCaptures1.Content =  $"{game.player1.Name}: {game.player1.Captures} Captures";
+            gameBoard.lbCaptures2.Content = $"{game.player2.Name}: {game.player2.Captures} Captures";
         }
 
 
@@ -156,7 +159,6 @@ namespace ProjectPente
             };
 
             timer.Elapsed += CountDown;
-            timer.Start();
         }
 
         //Logic for turn timer. Counts down from 20 and switches players at 0.
@@ -192,6 +194,11 @@ namespace ProjectPente
                 timer.Stop();
             }
             this.Close();
+        }
+
+        internal void StartTimer()
+        {
+            timer.Start();
         }
     }
 }

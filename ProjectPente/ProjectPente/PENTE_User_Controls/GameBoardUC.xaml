@@ -15,5 +15,7 @@
         <Label Name="lbTimer" Content="20s left!" FontSize="20" HorizontalAlignment="Left" Margin="1062,262,0,0" VerticalAlignment="Top" Height="73" Width="84"/>
         <Button x:Name="btnPlayAgain" Content="New Game" HorizontalAlignment="Left" VerticalAlignment="Top" Width="271" Height="61" FontSize="32" Click="PlayAgain_Click" Margin="875,584,0,0" RenderTransformOrigin="3.004,5.111" Background="#8b8378"/>
         <Label Content="Turn Timer:" FontSize="20" HorizontalAlignment="Left" Margin="875,262,0,0" VerticalAlignment="Top" Height="73" Width="182"/>
+        <Label Name="lbCaptures1" Content="Label" HorizontalAlignment="Left" Margin="875,478,0,0" VerticalAlignment="Top"/>
+        <Label Name="lbCaptures2" Content="Label" HorizontalAlignment="Left" Margin="1108,478,0,0" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>
