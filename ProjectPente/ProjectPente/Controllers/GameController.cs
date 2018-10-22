@@ -157,7 +157,7 @@ namespace ProjectPente
         }
 
         //Helper method for ValidMove.
-        private bool OutsideCenter(Tuple<int, int> position, Tuple<int, int> centerSpace)
+        public bool OutsideCenter(Tuple<int, int> position, Tuple<int, int> centerSpace)
         {
             if (Math.Abs(position.Item1 - centerSpace.Item1) > 2 || Math.Abs(position.Item2 - centerSpace.Item2) > 2)
             {
